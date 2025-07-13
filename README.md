@@ -1,6 +1,6 @@
 # flutter_cv
 
-CV website wiyh data autoupdate
+CV website with data autoupdate
 
 ## Getting Started
 
