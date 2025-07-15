@@ -25,7 +25,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GoogleSheetsClient(sl(), sheetId: AppConfig.cvSheetId));
 
   // Data source
-  sl.registerLazySingleton<CvDataSource>(() => RemoteCvDataSource(sl()));
+  sl.registerLazySingleton<CvDataSource>(() => RemoteCvDataSource(client: sl()));
 
   // External
   sl.registerLazySingleton(() => http.Client());
