@@ -1,3 +1,3 @@
 abstract class CvDataSource {
-  Future<Map<String, dynamic>> fetchRawData();
+  Future<Map<String, dynamic>> fetchBasicData();
 }

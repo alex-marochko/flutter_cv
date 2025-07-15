@@ -2,7 +2,7 @@ import 'cv_data_source.dart';
 
 class FakeCvDataSource implements CvDataSource {
   @override
-  Future<Map<String, dynamic>> fetchRawData() async {
+  Future<Map<String, dynamic>> fetchBasicData() async {
     // Delay to imitate real source
     await Future.delayed(Duration(milliseconds: 300));
 

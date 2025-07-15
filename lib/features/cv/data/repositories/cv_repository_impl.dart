@@ -11,7 +11,7 @@ class CvRepositoryImpl implements CvRepository {
   @override
   Future<Cv> getCv() async {
     // Get raw JSON from data source
-    final json = await dataSource.fetchRawData();
+    final json = await dataSource.fetchBasicData();
 
     // Parse it to a DTO (Data Transfer Object)
     final model = CvModel.fromJson(json);
