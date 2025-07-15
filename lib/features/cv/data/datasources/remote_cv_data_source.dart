@@ -26,8 +26,9 @@ class RemoteCvDataSource implements CvDataSource {
     final basicUrl = _buildUrl(CvSheet.basic);
     final experienceUrl = _buildUrl(CvSheet.experience);
 
-    final basicResponse = await client.get(basicUrl);
-    final experienceResponse = await client.get(experienceUrl);
+    final responses = await Future.wait([client.get(basicUrl), client.get(experienceUrl)]);
+    final basicResponse = responses[0];
+    final experienceResponse = responses[1];
 
     if (basicResponse.statusCode != 200 || experienceResponse.statusCode != 200) {
       throw Exception('Failed to load data from Google Sheets');
