@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cv/features/cv/presentation/widgets/cv_section_card.dart';
 import 'package:flutter_cv/features/cv/domain/entities/experience.dart';
 
 class ExperienceSection extends StatelessWidget {
@@ -8,13 +9,12 @@ class ExperienceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Experience', style: Theme.of(context).textTheme.headlineSmall),
-        const SizedBox(height: 16),
-        ...experience.map((e) => _ExperienceItem(e)),
-      ],
+    return CvSectionCard(
+      title: 'Experience',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: experience.map((e) => _ExperienceItem(e)).toList(),
+      ),
     );
   }
 }
@@ -29,7 +29,7 @@ class _ExperienceItem extends StatelessWidget {
     final descriptionLines = exp.description.split('\n');
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.only(bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,9 +38,12 @@ class _ExperienceItem extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           if (exp.reference.trim().isNotEmpty)
-            Text(
-              'Reference: ${exp.reference}',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                'Reference: ${exp.reference}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+              ),
             ),
           const SizedBox(height: 8),
           ...descriptionLines.map((line) => Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
-import 'package:flutter_cv/features/cv/presentation/pages/cv_page.dart';
+import 'package:flutter_cv/features/cv/presentation/pages/responsive_cv_page.dart';
 import 'core/di/service_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'CV App',
       home: BlocProvider(
         create: (_) => sl<CvCubit>()..loadCv(),
-        child: const CvPage(),
+        child: const ResponsiveCvPage(),
       ),
     );
   }
