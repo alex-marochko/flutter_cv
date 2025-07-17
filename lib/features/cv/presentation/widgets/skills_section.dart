@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cv/features/cv/domain/enums/skill_category.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/cv_section_card.dart';
 
 class SkillsSection extends StatelessWidget {
-  final Map<String, String> skills;
+  final Map<SkillCategory, String> skills;
 
   const SkillsSection({super.key, required this.skills});
 
@@ -19,7 +20,7 @@ class SkillsSection extends StatelessWidget {
 }
 
 class _SkillTile extends StatefulWidget {
-  final String category;
+  final SkillCategory category;
   final String content;
 
   const _SkillTile({required this.category, required this.content});
@@ -36,7 +37,7 @@ class _SkillTileState extends State<_SkillTile> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: ExpansionTile(
-        title: Text(widget.category, style: Theme.of(context).textTheme.titleMedium),
+        title: Text(widget.category.label, style: Theme.of(context).textTheme.titleMedium),
         initiallyExpanded: false,
         onExpansionChanged: (value) => setState(() => expanded = value),
         children: [

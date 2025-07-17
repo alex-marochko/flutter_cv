@@ -1,4 +1,5 @@
 import 'package:flutter_cv/features/cv/domain/entities/experience.dart';
+import 'package:flutter_cv/features/cv/domain/enums/skill_category.dart';
 
 class Cv {
   final String nameEn;
@@ -38,4 +39,12 @@ class Cv {
     required this.education,
     required this.experience,
   });
+
+  Map<SkillCategory, String> get skills => {
+    SkillCategory.general: skillsGeneral,
+    SkillCategory.flutter: skillsFlutter,
+    SkillCategory.android: skillsAndroid,
+    SkillCategory.languages: skillsLanguages,
+    SkillCategory.additional: skillsAdditional,
+  };
 }

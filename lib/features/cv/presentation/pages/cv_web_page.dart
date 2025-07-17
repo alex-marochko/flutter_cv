@@ -33,7 +33,7 @@ class _CvWebPageState extends State<CvWebPage> {
             if (state is CvLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is CvLoaded) {
-              return _buildContent(context, state.cv);
+              return CvWebContent(cv: state.cv);
             } else if (state is CvError) {
               return Center(child: Text('Error: ${state.message}'));
             }
@@ -43,8 +43,15 @@ class _CvWebPageState extends State<CvWebPage> {
       ),
     );
   }
+}
 
-  Widget _buildContent(BuildContext context, Cv cv) {
+class CvWebContent extends StatelessWidget {
+  final Cv cv;
+
+  const CvWebContent({super.key, required this.cv});
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Center(
@@ -53,7 +60,7 @@ class _CvWebPageState extends State<CvWebPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(cv),
+              CvHeader(cv: cv),
               ContactSection(
                 email: cv.email,
                 telegram: cv.telegram,
@@ -62,15 +69,7 @@ class _CvWebPageState extends State<CvWebPage> {
                 stackoverflow: cv.stackoverflow,
               ),
               ExperienceSection(experience: cv.experience),
-              SkillsSection(
-                skills: {
-                  'General': cv.skillsGeneral,
-                  'Flutter': cv.skillsFlutter,
-                  'Android': cv.skillsAndroid,
-                  'Languages': cv.skillsLanguages,
-                  'Additional': cv.skillsAdditional,
-                },
-              ),
+              SkillsSection(skills: cv.skills),
               EducationSection(education: cv.education),
               ReferencesSection(
                 references: cv.experience
@@ -85,14 +84,22 @@ class _CvWebPageState extends State<CvWebPage> {
       ),
     );
   }
+}
 
-  Widget _buildHeader(Cv cv) {
+class CvHeader extends StatelessWidget {
+  final Cv cv;
+
+  const CvHeader({super.key, required this.cv});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(cv.nameEn, style: Theme.of(context).textTheme.displaySmall),
+          Text(cv.nameUa, style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[500])),
           Text(
             cv.position,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700]),

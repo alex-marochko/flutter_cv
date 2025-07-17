@@ -14,28 +14,40 @@ class CvPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('My CV')),
-      body: BlocBuilder<CvCubit, CvState>(
-        builder: (context, state) {
-          if (state is CvLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is CvLoaded) {
-            return _buildContent(state.cv);
-          } else if (state is CvError) {
-            return Center(child: Text('Error: ${state.message}'));
-          }
-          return const SizedBox.shrink();
-        },
-      ),
+    return BlocBuilder<CvCubit, CvState>(
+      builder: (context, state) {
+        if (state is CvLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (state is CvLoaded) {
+          final cv = state.cv;
+          return Scaffold(
+            appBar: AppBar(title: Text(cv.nameEn)),
+            body: CvContent(cv: cv),
+          );
+        } else if (state is CvError) {
+          return Scaffold(
+            body: Center(child: Text('Error: ${state.message}')),
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
+}
 
-  Widget _buildContent(Cv cv) {
+class CvContent extends StatelessWidget {
+  final Cv cv;
+
+  const CvContent({super.key, required this.cv});
+
+  @override
+  Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(cv.nameEn, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        Text(cv.nameUa, style: const TextStyle(fontSize: 18, color: Colors.grey)),
         Text(cv.position, style: const TextStyle(fontSize: 18, color: Colors.grey)),
         const SizedBox(height: 16),
         ContactSection(
@@ -49,13 +61,7 @@ class CvPage extends StatelessWidget {
         ExperienceSection(experience: cv.experience),
         const SizedBox(height: 24),
         SkillsSection(
-          skills: {
-            'General': cv.skillsGeneral,
-            'Flutter': cv.skillsFlutter,
-            'Android': cv.skillsAndroid,
-            'Languages': cv.skillsLanguages,
-            'Additional': cv.skillsAdditional,
-          },
+          skills: cv.skills,
         ),
         const SizedBox(height: 24),
         EducationSection(education: cv.education),
