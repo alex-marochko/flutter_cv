@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cv/features/cv/presentation/widgets/cv_section_card.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 
 class ContactSection extends StatelessWidget {
   final String email;
@@ -19,35 +20,99 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CvSectionCard(
-      title: 'Contacts',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildLink('Email', email),
-          _buildLink('Telegram', telegram),
-          _buildLink('LinkedIn', linkedin),
-          _buildLink('GitHub', github),
-          _buildLink('Stack Overflow', stackoverflow),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _EmailItem(email: email),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 16,
+          runSpacing: 12,
+          children: [
+            _LinkIcon(label: 'LinkedIn', assetPath: 'assets/icons/linkedin.png', url: linkedin),
+            _LinkIcon(label: 'Telegram', assetPath: 'assets/icons/telegram.png', url: telegram),
+            _LinkIcon(label: 'GitHub', assetPath: 'assets/icons/github.png', url: github),
+            _LinkIcon(label: 'StackOverflow', assetPath: 'assets/icons/stackoverflow.png', url: stackoverflow),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _EmailItem extends StatelessWidget {
+  final String email;
+  const _EmailItem({required this.email});
+
+  Future<void> _launchEmail() async {
+    final uri = Uri(scheme: 'mailto', path: email);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+
+  void _copyToClipboard(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: email));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Email copied to clipboard')),
     );
   }
 
-  Widget _buildLink(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Text('$label: ', style: const TextStyle(fontWeight: FontWeight.bold)),
-          Flexible(
-            child: Text(
-              value,
-              style: const TextStyle(color: Colors.blue),
-              overflow: TextOverflow.ellipsis,
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        ActionChip(
+          onPressed: _launchEmail,
+          label: Row(
+            children: [
+              const Icon(Icons.email, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                email,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
+        const SizedBox(width: 8),
+        IconButton(
+          icon: const Icon(Icons.copy, size: 18),
+          tooltip: 'Copy email',
+          onPressed: () => _copyToClipboard(context),
+        ),
+      ],
+    );
+  }
+}
+
+class _LinkIcon extends StatelessWidget {
+  final String label;
+  final String assetPath;
+  final String url;
+
+  const _LinkIcon({
+    required this.label,
+    required this.assetPath,
+    required this.url,
+  });
+
+  Future<void> _launch() async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ActionChip(
+      onPressed: _launch,
+      avatar: Image.asset(assetPath, width: 20, height: 20),
+      label: Text(
+        label,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
   }

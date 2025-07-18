@@ -68,6 +68,7 @@ class CvWebContent extends StatelessWidget {
                 github: cv.github,
                 stackoverflow: cv.stackoverflow,
               ),
+              const SizedBox(height: 16),
               ExperienceSection(experience: cv.experience),
               SkillsSection(skills: cv.skills),
               EducationSection(education: cv.education),
@@ -103,17 +104,6 @@ class CvHeader extends StatelessWidget {
           Text(
             cv.position,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700]),
-          ),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 16,
-            runSpacing: 8,
-            children: [
-              Text(cv.location),
-              Text(cv.phone),
-              Text(cv.email),
-              Text(cv.telegram),
-            ],
           ),
         ],
       ),
