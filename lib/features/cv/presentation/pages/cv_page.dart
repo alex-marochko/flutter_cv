@@ -6,7 +6,6 @@ import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.dart';
-import 'package:flutter_cv/features/cv/presentation/widgets/references_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
 
 class CvPage extends StatelessWidget {
@@ -65,14 +64,6 @@ class CvContent extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         EducationSection(education: cv.education),
-        const SizedBox(height: 24),
-        ReferencesSection(
-          references: cv.experience
-              .map((e) => e.reference.trim())
-              .where((r) => r.isNotEmpty && r != '–')
-              .toSet()
-              .toList(),
-        ),
       ],
     );
   }
