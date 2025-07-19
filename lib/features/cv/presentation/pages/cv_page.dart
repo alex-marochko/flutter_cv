@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
@@ -13,16 +14,24 @@ class CvPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final themeCubit = context.read<ThemeCubit>();
+
     return BlocBuilder<CvCubit, CvState>(
       builder: (context, state) {
         if (state is CvLoading) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (state is CvLoaded) {
           final cv = state.cv;
           return Scaffold(
             appBar: AppBar(title: Text(cv.nameEn)),
+            floatingActionButton: FloatingActionButton(
+              key: ValueKey(themeCubit.state),
+              onPressed: () => themeCubit.toggleTheme(),
+              child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+            ),
             body: CvContent(cv: cv),
           );
         } else if (state is CvError) {
@@ -46,8 +55,11 @@ class CvContent extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(cv.nameUa, style: const TextStyle(fontSize: 18, color: Colors.grey)),
-        Text(cv.position, style: const TextStyle(fontSize: 18, color: Colors.grey)),
+        Text(cv.nameUa, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[500])),
+        Text(
+          cv.position,
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.w400),
+        ),
         const SizedBox(height: 16),
         ContactSection(
           email: cv.email,

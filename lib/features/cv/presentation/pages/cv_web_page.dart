@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
@@ -8,37 +9,29 @@ import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
 
-class CvWebPage extends StatefulWidget {
+class CvWebPage extends StatelessWidget {
   const CvWebPage({super.key});
 
   @override
-  State<CvWebPage> createState() => _CvWebPageState();
-}
-
-class _CvWebPageState extends State<CvWebPage> {
-  bool isDark = false;
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: isDark ? ThemeData.dark() : ThemeData.light(),
-      home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => setState(() => isDark = !isDark),
-          child: Icon(isDark ? Icons.light_mode : Icons.dark_mode),
-        ),
-        body: BlocBuilder<CvCubit, CvState>(
-          builder: (context, state) {
-            if (state is CvLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is CvLoaded) {
-              return CvWebContent(cv: state.cv);
-            } else if (state is CvError) {
-              return Center(child: Text('Error: ${state.message}'));
-            }
-            return const SizedBox.shrink();
-          },
-        ),
+    final themeCubit = context.read<ThemeCubit>();
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => themeCubit.toggleTheme(),
+        child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+      ),
+      body: BlocBuilder<CvCubit, CvState>(
+        builder: (context, state) {
+          if (state is CvLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CvLoaded) {
+            return CvWebContent(cv: state.cv);
+          } else if (state is CvError) {
+            return Center(child: Text('Error: ${state.message}'));
+          }
+          return const SizedBox.shrink();
+        },
       ),
     );
   }
@@ -92,10 +85,10 @@ class CvHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(cv.nameEn, style: Theme.of(context).textTheme.displaySmall),
-          Text(cv.nameUa, style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[500])),
+          Text(cv.nameUa, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[500])),
           Text(
             cv.position,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700]),
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.w400),
           ),
         ],
       ),

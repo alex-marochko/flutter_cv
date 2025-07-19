@@ -1,4 +1,5 @@
 import 'package:flutter_cv/core/config/app_config.dart';
+import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/data/datasources/cv_data_source.dart';
 import 'package:flutter_cv/features/cv/data/datasources/google_sheets_client.dart';
 import 'package:flutter_cv/features/cv/data/datasources/remote_cv_data_source.dart';
@@ -14,6 +15,9 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Cubit
   sl.registerFactory(() => CvCubit(sl()));
+
+  // Theme
+  sl.registerSingleton<ThemeCubit>(ThemeCubit());
 
   // Use case
   sl.registerLazySingleton(() => GetCv(sl()));
