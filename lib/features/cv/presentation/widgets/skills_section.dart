@@ -10,10 +10,13 @@ class SkillsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CvSectionCard(
-      title: 'Skills',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: skills.entries.map((entry) => _SkillTile(category: entry.key, content: entry.value)).toList(),
+      title: 'Skills & Techs Used',
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: skills.entries.map((entry) => _SkillTile(category: entry.key, content: entry.value)).toList(),
+        ),
       ),
     );
   }
@@ -41,10 +44,12 @@ class _SkillTileState extends State<_SkillTile> {
         initiallyExpanded: false,
         onExpansionChanged: (value) => setState(() => expanded = value),
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            alignment: Alignment.topLeft,
             child: Text(
               widget.content,
+              textAlign: TextAlign.start,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
