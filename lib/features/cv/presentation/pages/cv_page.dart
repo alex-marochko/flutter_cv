@@ -8,6 +8,8 @@ import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
+import 'package:flutter_cv/features/pdf/presentation/pdf_export_button.dart';
+import 'package:flutter_cv/features/pdf/presentation/pdf_preview_button.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});
@@ -27,10 +29,18 @@ class CvPage extends StatelessWidget {
           final cv = state.cv;
           return Scaffold(
             appBar: AppBar(title: Text(cv.nameEn)),
-            floatingActionButton: FloatingActionButton(
-              key: ValueKey(themeCubit.state),
-              onPressed: () => themeCubit.toggleTheme(),
-              child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+            floatingActionButton: Column(
+              children: [
+                PdfPreviewButton(),
+                SizedBox(height: 16),
+                PdfExportButton(),
+                SizedBox(height: 16),
+                FloatingActionButton(
+                  key: ValueKey(themeCubit.state),
+                  onPressed: () => themeCubit.toggleTheme(),
+                  child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+                ),
+              ],
             ),
             body: CvContent(cv: cv),
           );

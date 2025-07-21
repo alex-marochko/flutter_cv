@@ -8,6 +8,8 @@ import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.d
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
+import 'package:flutter_cv/features/pdf/presentation/pdf_export_button.dart';
+import 'package:flutter_cv/features/pdf/presentation/pdf_preview_button.dart';
 
 class CvWebPage extends StatelessWidget {
   const CvWebPage({super.key});
@@ -17,9 +19,18 @@ class CvWebPage extends StatelessWidget {
     final themeCubit = context.read<ThemeCubit>();
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => themeCubit.toggleTheme(),
-        child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PdfPreviewButton(),
+          SizedBox(height: 16),
+          PdfExportButton(),
+          SizedBox(height: 16),
+          FloatingActionButton(
+            onPressed: () => themeCubit.toggleTheme(),
+            child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+          ),
+        ],
       ),
       body: BlocBuilder<CvCubit, CvState>(
         builder: (context, state) {
