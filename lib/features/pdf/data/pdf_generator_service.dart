@@ -15,7 +15,7 @@ class PdfGeneratorService {
 
     final font = await PdfGoogleFonts.manropeRegular();
     final pdf = pw.Document(
-      theme: pw.ThemeData.withFont(base: font).copyWith(defaultTextStyle: pw.TextStyle(fontSize: 10))
+      theme: pw.ThemeData.withFont(base: font).copyWith(defaultTextStyle: pw.TextStyle(fontSize: 9))
     );
 
     pdf.addPage(
@@ -56,16 +56,17 @@ class PdfGeneratorService {
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
               pw.Text('${e.yearFrom} - ${e.yearTo}: ${e.position} at ${e.company}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+              pw.SizedBox(height: 4),
               if(e.reference.isNotEmpty) pw.Padding(
-                padding: pw.EdgeInsets.symmetric(vertical: 4),
+                padding: pw.EdgeInsets.only(bottom: 4),
                 child: _RichTextLinkified('Reference: ${e.reference}', textColor: PdfColor.fromInt(0xFF757575), textSize: 8),
               ),
 
               if (e.description.isNotEmpty) ...e.description.split(r'\n').map((d) => pw.Padding(
-                padding: const pw.EdgeInsets.only(left: 12),
-                child: _RichTextLinkified('• $d', textSize: 9),
+                padding: const pw.EdgeInsets.only(left: 12, top: 2),
+                child: _RichTextLinkified('• $d'),
               )),
-              pw.SizedBox(height: 8),
+              pw.SizedBox(height: 4),
             ],
           )),
 
@@ -73,21 +74,18 @@ class PdfGeneratorService {
           ...cv.skills.entries.map((entry) => pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.Text('${entry.key}:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-              pw.Text('${entry.value}, '),
-              pw.SizedBox(height: 8),
+              pw.Text('${entry.key.label}:', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+              pw.Padding(
+                padding: pw.EdgeInsets.only(left: 12),
+                child: pw.Text('${entry.value}, '),
+              ),
+              pw.SizedBox(height: 4),
             ],
           )),
 
-          pw.SizedBox(height: 24),
           _Category(title: 'EDUCATION'),
           pw.Text(cv.education),
 
-          // if (cv.experience. != null && cv.references.isNotEmpty) ...[
-          //   pw.SizedBox(height: 24),
-          //   _buildSectionTitle('REFERENCES'),
-          //   ...cv.references.map((r) => pw.Text('• $r')),
-          // ]
         ],
       ),
     );
@@ -135,7 +133,7 @@ class _ColoredTextBlock extends pw.StatelessWidget {
         color: bgColour,
         borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
       ),
-      margin: const pw.EdgeInsets.only(bottom: 8, top: 16),
+      margin: const pw.EdgeInsets.only(bottom: 8, top: 8),
       padding: const pw.EdgeInsets.all(4),
       child: pw.Text(
         text,
