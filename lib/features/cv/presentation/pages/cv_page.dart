@@ -9,7 +9,6 @@ import 'package:flutter_cv/features/cv/presentation/widgets/education_section.da
 import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
 import 'package:flutter_cv/features/pdf/presentation/pdf_export_button.dart';
-import 'package:flutter_cv/features/pdf/presentation/pdf_preview_button.dart';
 
 class CvPage extends StatelessWidget {
   const CvPage({super.key});
@@ -31,8 +30,6 @@ class CvPage extends StatelessWidget {
             appBar: AppBar(title: Text(cv.nameEn)),
             floatingActionButton: Column(
               children: [
-                PdfPreviewButton(),
-                SizedBox(height: 16),
                 PdfExportButton(),
                 SizedBox(height: 16),
                 FloatingActionButton(
