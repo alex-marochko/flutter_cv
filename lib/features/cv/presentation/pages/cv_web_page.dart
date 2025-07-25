@@ -8,7 +8,7 @@ import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.d
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
-import 'package:flutter_cv/features/pdf/presentation/pdf_export_button.dart';
+import 'package:flutter_cv/features/pdf/presentation/widgets/pdf_export_button.dart';
 
 class CvWebPage extends StatelessWidget {
   const CvWebPage({super.key});
