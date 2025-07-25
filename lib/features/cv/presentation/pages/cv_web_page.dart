@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
+import 'package:flutter_cv/features/cv/presentation/widgets/change_theme_button.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
@@ -15,20 +15,9 @@ class CvWebPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeCubit = context.read<ThemeCubit>();
-
     return Scaffold(
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PdfExportButton(),
-          SizedBox(height: 16),
-          FloatingActionButton(
-            onPressed: () => themeCubit.toggleTheme(),
-            child: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
-          ),
-        ],
-      ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(actions: [PdfExportButton(), ChangeThemeButton()], backgroundColor: Colors.transparent, elevation: 0,),
       body: BlocBuilder<CvCubit, CvState>(
         builder: (context, state) {
           if (state is CvLoading) {

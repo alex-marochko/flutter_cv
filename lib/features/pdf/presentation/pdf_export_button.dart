@@ -10,19 +10,31 @@ class PdfExportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      icon: const Icon(Icons.picture_as_pdf),
-      label: const Text('Export PDF'),
-      onPressed: () async {
-        final state = context.read<CvCubit>().state;
-        if (state is! CvLoaded) return;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: BlocBuilder<CvCubit, CvState>(
+        builder: (_, state) {
+          return ElevatedButton.icon(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.disabled)) {
+                  return Colors.grey;
+                }
+                return Colors.green;
+              }),
+            ),
+            icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
+            label: const Text('Download', style: TextStyle(color: Colors.white),),
+            onPressed: (state is! CvLoaded)? null : () async {
+              final cv = state.cv;
+              final pdfData = await PdfGeneratorService().generateCvPdf(cv);
+              final filename = 'CV ${cv.nameEn} - ${cv.position}.pdf';
 
-        final cv = state.cv;
-        final pdfData = await PdfGeneratorService().generateCvPdf(cv);
-        final filename = '${cv.nameEn} (${cv.position}) cv.pdf';
-
-        await Printing.sharePdf(bytes: pdfData, filename: filename);
-      },
+              await Printing.sharePdf(bytes: pdfData, filename: filename);
+            },
+          );
+        }
+      ),
     );
   }
 }
