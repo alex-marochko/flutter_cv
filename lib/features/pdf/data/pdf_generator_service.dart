@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart' show PdfColor;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
-import 'package:printing/printing.dart' show PdfGoogleFonts;
 import 'package:flutter_cv/features/pdf/presentation/widgets/pdf_widgets.dart';
 import 'package:flutter_cv/core/services/url_service_provider.dart';
 
@@ -15,7 +15,8 @@ enum CategoryTitle {
 
 class PdfGeneratorService {
   Future<Uint8List> generateCvPdf(Cv cv) async {
-    final font = await PdfGoogleFonts.manropeRegular();
+    final fontData = await rootBundle.load("assets/fonts/Manrope-Regular.ttf");
+    final font = pw.Font.ttf(fontData);
     final pdf = pw.Document(
         theme: pw.ThemeData.withFont(base: font)
             .copyWith(defaultTextStyle: pw.TextStyle(fontSize: 9)));
