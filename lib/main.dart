@@ -17,17 +17,21 @@ class CvApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: sl<ThemeCubit>(),
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
-          return MaterialApp(
-            title: 'Flutter CV',
-            theme:  themeMode == ThemeMode.light? ThemeData.light() : ThemeData.dark(),
-            home: BlocProvider(
-              create: (_) => sl<CvCubit>()..loadCv(),
-              child: ResponsiveCvPage(key: ValueKey(sl<ThemeCubit>().state)),
-            ),
+    return BlocProvider(
+        create: (_) => ThemeCubit(),
+      child: Builder(
+        builder: (context) {
+          return BlocBuilder<ThemeCubit, ThemeMode>(
+            builder: (context, themeMode) {
+              return MaterialApp(
+                title: 'Flutter CV',
+                theme:  themeMode == ThemeMode.light? ThemeData.light() : ThemeData.dark(),
+                home: BlocProvider(
+                  create: (_) => CvCubit(sl())..loadCv(),
+                  child: ResponsiveCvPage(key: ValueKey(themeMode)),
+                ),
+              );
+            }
           );
         }
       ),
