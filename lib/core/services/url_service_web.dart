@@ -1,7 +1,7 @@
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 import 'package:flutter_cv/core/services/url_service.dart';
 
 class UrlServiceImpl implements UrlService {
   @override
-  String getUrl() => html.window.location.href;
+  String getUrl() => web.window.location.href;
 }
