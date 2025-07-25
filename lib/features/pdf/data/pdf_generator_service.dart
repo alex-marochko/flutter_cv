@@ -1,9 +1,11 @@
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:pdf/pdf.dart' show PdfColor;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:printing/printing.dart' show PdfGoogleFonts;
 import 'package:flutter_cv/features/pdf/presentation/widgets/pdf_widgets.dart';
+import 'package:flutter_cv/core/services/url_service_provider.dart';
 
 enum CategoryTitle {
   experience,
@@ -63,9 +65,33 @@ class PdfGeneratorService {
                     UrlText(text: 'StackOverflow', url: cv.stackoverflow),
                   ],
                 ),
-                pw.Text('[QR code]'),
+                _buildQrCode(),
               ]),
         ]);
+  }
+
+  pw.Widget _buildQrCode() {
+    if (kIsWeb) {
+      final url = UrlServiceImpl().getUrl();
+      if (url.isNotEmpty) {
+        final displayUrl = url.replaceAll(RegExp(r'^https?://(www\.)?'), '');
+        return pw.Column(
+          mainAxisSize: pw.MainAxisSize.min,
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
+          children: [
+            pw.BarcodeWidget(
+              barcode: pw.Barcode.qrCode(),
+              data: url,
+              width: 50,
+              height: 50,
+            ),
+            pw.SizedBox(height: 4),
+            UrlText(url: url, text: displayUrl),
+          ],
+        );
+      }
+    }
+    return pw.SizedBox.shrink();
   }
 
   pw.Widget _buildExperience(Cv cv) {
