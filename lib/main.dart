@@ -32,11 +32,12 @@ class CvApp extends StatelessWidget {
                   create: (_) => CvCubit(sl())..loadCv(),
                   child: BlocBuilder<CvCubit, CvState>(
                     builder: (context, state) {
-                      if (state is CvLoaded) {
-                        return ResponsiveCvPage(cv: state.cv);
-                      } else {
-                        return const LoadingScreen();
-                      }
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: (state is CvLoaded)
+                            ? ResponsiveCvPage(key: const ValueKey('cv_page'), cv: state.cv)
+                            : const LoadingScreen(key: ValueKey('loading_screen')),
+                      );
                     },
                   ),
                 ),
