@@ -5,7 +5,6 @@ import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.d
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
-import 'package:flutter_cv/features/mosaic_cloud/ui/widgets/mosaic_cloud.dart';
 import 'package:flutter_cv/features/pdf/presentation/widgets/pdf_export_button.dart';
 
 class CvWebPage extends StatelessWidget {
@@ -66,51 +65,21 @@ class CvHeader extends StatelessWidget {
 
   const CvHeader({super.key, required this.cv});
 
-  static const List<String> _backgroundSkills = [
-    'Flutter', 'Dart', 'BLoC', 'SOLID', 'Android', 'Kotlin', 'Swift', 'Git'
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Background mosaic on the right
-        Positioned(
-          top: 0,
-          right: 0,
-          bottom: 0,
-          width: 300, // Adjust width as needed
-          child: Opacity(
-            opacity: 0.05,
-            child: MosaicCloud(
-              children: _backgroundSkills.map((skill) {
-                return Hero(
-                  tag: 'skill_$skill',
-                  child: Text(
-                    skill,
-                    style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                );
-              }).toList(),
-            ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(cv.nameEn, style: Theme.of(context).textTheme.displaySmall),
+          Text(cv.nameUa, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[500])),
+          Text(
+            cv.position,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.w400),
           ),
-        ),
-        // Foreground content
-        Padding(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(cv.nameEn, style: Theme.of(context).textTheme.displaySmall),
-              Text(cv.nameUa, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[500])),
-              Text(
-                cv.position,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

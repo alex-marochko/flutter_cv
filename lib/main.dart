@@ -30,24 +30,14 @@ class CvApp extends StatelessWidget {
                 theme:  themeMode == ThemeMode.light? ThemeData.light() : ThemeData.dark(),
                 home: BlocProvider(
                   create: (_) => CvCubit(sl())..loadCv(),
-                  child: BlocListener<CvCubit, CvState>(
-                    listener: (context, state) {
+                  child: BlocBuilder<CvCubit, CvState>(
+                    builder: (context, state) {
                       if (state is CvLoaded) {
-                        Navigator.of(context).pushReplacement(
-                          PageRouteBuilder(
-                            pageBuilder: (_, __, ___) => BlocProvider.value(
-                              value: context.read<CvCubit>(),
-                              child: ResponsiveCvPage(cv: state.cv),
-                            ),
-                            transitionDuration: const Duration(milliseconds: 5000),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return FadeTransition(opacity: animation, child: child);
-                            },
-                          ),
-                        );
+                        return ResponsiveCvPage(cv: state.cv);
+                      } else {
+                        return const LoadingScreen();
                       }
                     },
-                    child: const LoadingScreen(), // Always start with the loading screen
                   ),
                 ),
               );
