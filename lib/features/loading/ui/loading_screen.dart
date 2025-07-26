@@ -85,8 +85,8 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 3,
+            child: FractionallySizedBox(
+              widthFactor: 0.25,
               child: const LinearProgressIndicator(),
             ),
           ),
