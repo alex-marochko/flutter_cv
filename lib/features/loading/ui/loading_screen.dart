@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_cv/features/mosaic_cloud/ui/widgets/mosaic_cloud.dart';
+import 'package:mosaic_cloud/mosaic_cloud.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
