@@ -260,10 +260,10 @@ packages:
     dependency: "direct main"
     description:
       name: mosaic_cloud
-      sha256: ed6e81dd8dcbef7b94e4eca16672f9d47b6fe38bf8f850ca3e3fcdc09ce26886
+      sha256: ff335455cc93c823bca34f2625d3abf751975307a9f1107517cd5a335cd7adcd
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   nested:
     dependency: transitive
     description:
