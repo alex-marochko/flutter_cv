@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mosaic_cloud/mosaic_cloud.dart';
 
@@ -9,14 +10,34 @@ class LoadingScreen extends StatefulWidget {
   State<LoadingScreen> createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProviderStateMixin {
+class _LoadingScreenState extends State<LoadingScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _entranceController;
 
   static const List<String> _skills = [
-    'Flutter', 'Dart', 'BLoC', 'Provider', 'GetIt', 'Mockito', 'SOLID',
-    'Clean Architecture', 'Android', 'Kotlin', 'Git', 'iOS',
-    'CI/CD', 'Firebase', 'REST API', 'UI/UX', 'Material Design', 'unit tests',
-    'Sentry', 'Crashlytics', 'Java', 'Figma', 'sounds',
+    'Flutter',
+    'Dart',
+    'BLoC',
+    'Provider',
+    'GetIt',
+    'Mockito',
+    'SOLID',
+    'Clean Architecture',
+    'Android',
+    'Kotlin',
+    'Git',
+    'iOS',
+    'CI/CD',
+    'Firebase',
+    'REST API',
+    'UI/UX',
+    'Material Design',
+    'unit tests',
+    'Sentry',
+    'Crashlytics',
+    'Java',
+    'Figma',
+    'sounds',
   ];
 
   @override
@@ -44,7 +65,9 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     const basicFontSize = 24.0;
     const minFontSize = 12.0;
-    final textStyle = TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color);
+    final textStyle = TextStyle(
+      color: Theme.of(context).textTheme.bodyLarge?.color,
+    );
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -53,33 +76,46 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
           Expanded(
             child: Center(
               child: MosaicCloud(
-                children: List.generate(_skills.length, (index) {
-                  final skill = _skills[index];
-                  final isVertical = index % 2 == 1;
+                children:
+                    List.generate(_skills.length, (index) {
+                      final skill = _skills[index];
+                      final isVertical = index % 2 == 1;
 
-                  // Entrance animation
-                  final entranceAnimation = CurvedAnimation(
-                    parent: _entranceController,
-                    curve: Interval((index / _skills.length) * 0.5, 1.0, curve: Curves.easeOut),
-                  );
+                      // Entrance animation
+                      final entranceAnimation = CurvedAnimation(
+                        parent: _entranceController,
+                        curve: Interval(
+                          (index / _skills.length) * 0.5,
+                          1.0,
+                          curve: Curves.easeOut,
+                        ),
+                      );
 
-                  // Font size calculation
-                  final progress = index / (_skills.length - 1);
-                  final nonLinearProgress = 1 - pow(1 - progress, 2);
-                  final fontSize = basicFontSize - (basicFontSize - minFontSize) * nonLinearProgress;
-                  final fontWeight = _getWeightForSize(fontSize);
+                      // Font size calculation
+                      final progress = index / (_skills.length - 1);
+                      final nonLinearProgress = 1 - pow(1 - progress, 2);
+                      final fontSize =
+                          basicFontSize -
+                          (basicFontSize - minFontSize) * nonLinearProgress;
+                      final fontWeight = _getWeightForSize(fontSize);
 
-                  final tag = Text(skill, style: textStyle.copyWith(fontSize: fontSize, fontWeight: fontWeight));
-                  final rotatedTag = isVertical ? RotatedBox(quarterTurns: 3, child: tag) : tag;
+                      final tag = Text(
+                        skill,
+                        style: textStyle.copyWith(
+                          fontSize: fontSize,
+                          fontWeight: fontWeight,
+                        ),
+                      );
+                      final rotatedTag =
+                          isVertical
+                              ? RotatedBox(quarterTurns: 3, child: tag)
+                              : tag;
 
-                  return FadeTransition(
-                    opacity: entranceAnimation,
-                    child: ScaleTransition(
-                      scale: entranceAnimation,
-                      child: rotatedTag,
-                    ),
-                  );
-                }).toList(),
+                      return FadeTransition(
+                        opacity: entranceAnimation,
+                        child: rotatedTag,
+                      );
+                    }).toList(),
               ),
             ),
           ),
@@ -95,4 +131,3 @@ class _LoadingScreenState extends State<LoadingScreen> with SingleTickerProvider
     );
   }
 }
-
