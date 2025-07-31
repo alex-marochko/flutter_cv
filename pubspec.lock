@@ -259,9 +259,10 @@ packages:
   mosaic_cloud:
     dependency: "direct main"
     description:
-      path: "../mosaic_cloud"
-      relative: true
-    source: path
+      name: mosaic_cloud
+      sha256: ed6e81dd8dcbef7b94e4eca16672f9d47b6fe38bf8f850ca3e3fcdc09ce26886
+      url: "https://pub.dev"
+    source: hosted
     version: "0.1.0"
   nested:
     dependency: transitive
