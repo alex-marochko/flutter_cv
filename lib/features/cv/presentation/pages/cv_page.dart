@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/change_theme_button.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
+import 'package:flutter_cv/features/cv/presentation/widgets/cv_footer.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
@@ -33,10 +34,18 @@ class CvContent extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text(cv.nameUa, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey[500])),
+        Text(
+          cv.nameUa,
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: Colors.grey[500]),
+        ),
         Text(
           cv.position,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.grey[700], fontWeight: FontWeight.w400),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: Colors.grey[700],
+            fontWeight: FontWeight.w400,
+          ),
         ),
         const SizedBox(height: 16),
         ContactSection(
@@ -49,11 +58,11 @@ class CvContent extends StatelessWidget {
         const SizedBox(height: 24),
         ExperienceSection(experience: cv.experience),
         const SizedBox(height: 24),
-        SkillsSection(
-          skills: cv.skills,
-        ),
+        SkillsSection(skills: cv.skills),
         const SizedBox(height: 24),
         EducationSection(education: cv.education),
+        const SizedBox(height: 32),
+        CvFooter(text: cv.copyright),
       ],
     );
   }
