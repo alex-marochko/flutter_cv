@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/change_theme_button.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
+import 'package:flutter_cv/features/cv/presentation/widgets/cv_footer.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/experience_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/skills_section.dart';
@@ -91,7 +92,7 @@ class CvWebContent extends StatelessWidget {
                     (s) => Text(
                       s,
                       style: TextStyle(
-                        color: Colors.blue.withAlpha(15),
+                        color: Colors.blue.withAlpha(30),
                         fontWeight: FontWeight.w900,
                         fontSize: 24,
                       ),
@@ -119,6 +120,8 @@ class CvWebContent extends StatelessWidget {
                   ExperienceSection(experience: cv.experience),
                   SkillsSection(skills: cv.skills),
                   EducationSection(education: cv.education),
+                  const SizedBox(height: 32),
+                  const CvFooter(),
                 ],
               ),
             ),

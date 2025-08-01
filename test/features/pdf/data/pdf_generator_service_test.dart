@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/domain/entities/experience.dart';
 import 'package:flutter_cv/features/pdf/data/pdf_generator_service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -56,6 +60,22 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: SizedBox()));
     await tester.pumpAndSettle();
 
+    // Mock the asset bundle to load the font and image
+    final fontData = await File('assets/fonts/Manrope-Regular.ttf').readAsBytes();
+    final imageData = await File('assets/logos/built_with_flutter.png').readAsBytes();
+
+    tester.binding.defaultBinaryMessenger.setMockMessageHandler('flutter/assets', (ByteData? message) async {
+      final String key = utf8.decode(message!.buffer.asUint8List());
+      if (key == 'assets/fonts/Manrope-Regular.ttf') {
+        return ByteData.view(fontData.buffer);
+      }
+      if (key == 'assets/logos/built_with_flutter.png') {
+        return ByteData.view(imageData.buffer);
+      }
+      return null;
+    });
+
+
     // Arrange
     when(() => mockCv.nameEn).thenReturn(testCv.nameEn);
     when(() => mockCv.nameUa).thenReturn(testCv.nameUa);
@@ -77,5 +97,8 @@ void main() {
     // Assert
     expect(result, isA<Uint8List>());
     expect(result, isNotEmpty);
+
+    // Teardown
+    tester.binding.defaultBinaryMessenger.setMockMessageHandler('flutter/assets', null);
   });
 }
