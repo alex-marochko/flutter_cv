@@ -15,7 +15,13 @@ class SkillsSection extends StatelessWidget {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: skills.entries.map((entry) => _SkillTile(category: entry.key, content: entry.value)).toList(),
+          children:
+              skills.entries
+                  .map(
+                    (entry) =>
+                        _SkillTile(category: entry.key, content: entry.value),
+                  )
+                  .toList(),
         ),
       ),
     );
@@ -40,7 +46,10 @@ class _SkillTileState extends State<_SkillTile> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: ExpansionTile(
-        title: Text(widget.category.label, style: Theme.of(context).textTheme.titleMedium),
+        title: Text(
+          widget.category.label,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
         initiallyExpanded: false,
         onExpansionChanged: (value) => setState(() => expanded = value),
         children: [

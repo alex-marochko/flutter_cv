@@ -18,10 +18,14 @@ Future<void> init() async {
   sl.registerLazySingleton<CvRepository>(() => CvRepositoryImpl(sl()));
 
   // Google Sheets Client
-  sl.registerLazySingleton(() => GoogleSheetsClient(sl(), sheetId: AppConfig.cvSheetId));
+  sl.registerLazySingleton(
+    () => GoogleSheetsClient(sl(), sheetId: AppConfig.cvSheetId),
+  );
 
   // Data source
-  sl.registerLazySingleton<CvDataSource>(() => RemoteCvDataSource(client: sl()));
+  sl.registerLazySingleton<CvDataSource>(
+    () => RemoteCvDataSource(client: sl()),
+  );
 
   // External
   sl.registerLazySingleton(() => http.Client());

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cv/core/di/service_locator.dart';
 import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 import 'package:flutter_cv/features/cv/presentation/pages/responsive_cv_page.dart';
-
-import 'core/di/service_locator.dart';
-import 'features/loading/presentation/loading_screen.dart';
+import 'package:flutter_cv/features/loading/presentation/loading_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -33,43 +33,76 @@ void main() {
       ],
     };
     final tExperienceData = {
-      'columns': ['year_from', 'year_to', 'position', 'company', 'reference', 'description'],
+      'columns': [
+        'year_from',
+        'year_to',
+        'position',
+        'company',
+        'reference',
+        'description',
+      ],
       'data': [
-        ['2022', '2023', 'Test Exp Position', 'Test Exp Company', 'ref.com', 'Desc'],
+        [
+          '2022',
+          '2023',
+          'Test Exp Position',
+          'Test Exp Company',
+          'ref.com',
+          'Desc',
+        ],
       ],
     };
 
     final tBasicUrl = Uri.parse(
-        'https://sheet-proxy.marochko.workers.dev?action=read&sheetID=${AppConfig.cvSheetId}&sheetName=${CvSheet.basic.name}');
+      'https://sheet-proxy.marochko.workers.dev?action=read&sheetID=${AppConfig.cvSheetId}&sheetName=${CvSheet.basic.name}',
+    );
     final tExperienceUrl = Uri.parse(
-        'https://sheet-proxy.marochko.workers.dev?action=read&sheetID=${AppConfig.cvSheetId}&sheetName=${CvSheet.experience.name}');
+      'https://sheet-proxy.marochko.workers.dev?action=read&sheetID=${AppConfig.cvSheetId}&sheetName=${CvSheet.experience.name}',
+    );
 
-    test('should return CvModel when the response code is 200 (success)', () async {
-      // Arrange
-      when(() => mockHttpClient.get(tBasicUrl))
-          .thenAnswer((_) async => http.Response(json.encode(tBasicData), 200, headers: {'content-type': 'application/json; charset=utf-8'}));
-      when(() => mockHttpClient.get(tExperienceUrl))
-          .thenAnswer((_) async => http.Response(json.encode(tExperienceData), 200, headers: {'content-type': 'application/json; charset=utf-8'}));
+    test(
+      'should return CvModel when the response code is 200 (success)',
+      () async {
+        // Arrange
+        when(() => mockHttpClient.get(tBasicUrl)).thenAnswer(
+          (_) async => http.Response(
+            json.encode(tBasicData),
+            200,
+            headers: {'content-type': 'application/json; charset=utf-8'},
+          ),
+        );
+        when(() => mockHttpClient.get(tExperienceUrl)).thenAnswer(
+          (_) async => http.Response(
+            json.encode(tExperienceData),
+            200,
+            headers: {'content-type': 'application/json; charset=utf-8'},
+          ),
+        );
 
-      // Act
-      final result = await dataSource.fetchRawData();
+        // Act
+        final result = await dataSource.fetchRawData();
 
-      // Assert
-      expect(result, isA<CvModel>());
-      expect(result.nameEn, 'Test Name');
-      expect(result.experienceModels.first.company, 'Test Exp Company');
-    });
+        // Assert
+        expect(result, isA<CvModel>());
+        expect(result.nameEn, 'Test Name');
+        expect(result.experienceModels.first.company, 'Test Exp Company');
+      },
+    );
 
-    test('should throw an exception when the response code is not 200', () async {
-      // Arrange
-      when(() => mockHttpClient.get(any()))
-          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+    test(
+      'should throw an exception when the response code is not 200',
+      () async {
+        // Arrange
+        when(
+          () => mockHttpClient.get(any()),
+        ).thenAnswer((_) async => http.Response('Something went wrong', 404));
 
-      // Act
-      final call = dataSource.fetchRawData;
+        // Act
+        final call = dataSource.fetchRawData;
 
-      // Assert
-      expect(() => call(), throwsA(isA<Exception>()));
-    });
+        // Assert
+        expect(() => call(), throwsA(isA<Exception>()));
+      },
+    );
   });
 }
