@@ -5,6 +5,7 @@ import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 import 'package:flutter_cv/features/cv/presentation/pages/responsive_cv_page.dart';
+import 'package:flutter_cv/features/cv/presentation/widgets/error_screen.dart';
 import 'package:flutter_cv/features/loading/presentation/loading_screen.dart';
 
 void main() async {
@@ -37,15 +38,20 @@ class CvApp extends StatelessWidget {
                     builder: (context, state) {
                       return AnimatedSwitcher(
                         duration: const Duration(milliseconds: 500),
-                        child:
-                            (state is CvLoaded)
-                                ? ResponsiveCvPage(
-                                  key: const ValueKey('cv_page'),
-                                  cv: state.cv,
-                                )
-                                : const LoadingScreen(
-                                  key: ValueKey('loading_screen'),
-                                ),
+                        child: switch (state) {
+                          CvLoaded() => ResponsiveCvPage(
+                              key: const ValueKey('cv_page'),
+                              cv: state.cv,
+                            ),
+                          CvError() => ErrorScreen(
+                              key: const ValueKey('error_screen'),
+                              failure: state.failure,
+                              onRetry: () => context.read<CvCubit>().loadCv(),
+                            ),
+                          _ => const LoadingScreen(
+                              key: ValueKey('loading_screen'),
+                            ),
+                        },
                       );
                     },
                   ),
