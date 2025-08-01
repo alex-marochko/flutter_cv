@@ -26,22 +26,28 @@ class RemoteCvDataSource implements CvDataSource {
     final basicUrl = _buildUrl(CvSheet.basic);
     final experienceUrl = _buildUrl(CvSheet.experience);
 
-    final responses = await Future.wait([client.get(basicUrl), client.get(experienceUrl)]);
+    final responses = await Future.wait([
+      client.get(basicUrl),
+      client.get(experienceUrl),
+    ]);
     final basicResponse = responses[0];
     final experienceResponse = responses[1];
 
-    if (basicResponse.statusCode != 200 || experienceResponse.statusCode != 200) {
+    if (basicResponse.statusCode != 200 ||
+        experienceResponse.statusCode != 200) {
       throw Exception('Failed to load data from Google Sheets');
     }
 
     // Parse basic key-value map
     final basicJson = jsonDecode(utf8.decode(basicResponse.bodyBytes));
     final Map<String, dynamic> basicMap = {
-      for (var row in basicJson['data']) row[0]: row[1]
+      for (var row in basicJson['data']) row[0]: row[1],
     };
 
     // Parse experience list
-    final experienceJson = jsonDecode(utf8.decode(experienceResponse.bodyBytes));
+    final experienceJson = jsonDecode(
+      utf8.decode(experienceResponse.bodyBytes),
+    );
     final List<dynamic> rows = experienceJson['data'];
 
     final headers = List<String>.from(experienceJson['columns']);
@@ -63,12 +69,13 @@ class RemoteCvDataSource implements CvDataSource {
       throw Exception('Missing required columns in experience sheet: $missing');
     }
 
-    final List<ExperienceModel> experience = rows.map((row) {
-      final Map<String, dynamic> rowMap = {
-        for (int i = 0; i < headers.length; i++) headers[i]: row[i],
-      };
-      return ExperienceModel.fromJson(rowMap);
-    }).toList();
+    final List<ExperienceModel> experience =
+        rows.map((row) {
+          final Map<String, dynamic> rowMap = {
+            for (int i = 0; i < headers.length; i++) headers[i]: row[i],
+          };
+          return ExperienceModel.fromJson(rowMap);
+        }).toList();
 
     return CvModel.fromJson(basicMap, experience);
   }

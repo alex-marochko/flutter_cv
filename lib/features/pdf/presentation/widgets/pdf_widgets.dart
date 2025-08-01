@@ -13,7 +13,12 @@ class Position extends pw.StatelessWidget {
 
   @override
   pw.Widget build(pw.Context context) {
-    return ColoredTextBlock(text: title, textColor: PdfColor(1, 1, 1), bgColour: blue, bold: true);
+    return ColoredTextBlock(
+      text: title,
+      textColor: PdfColor(1, 1, 1),
+      bgColour: blue,
+      bold: true,
+    );
   }
 }
 
@@ -24,12 +29,21 @@ class Category extends pw.StatelessWidget {
 
   @override
   pw.Widget build(pw.Context context) {
-    return ColoredTextBlock(text: title, textColor: PdfColor(0, 0, 0), bgColour: lightBlue);
+    return ColoredTextBlock(
+      text: title,
+      textColor: PdfColor(0, 0, 0),
+      bgColour: lightBlue,
+    );
   }
 }
 
 class ColoredTextBlock extends pw.StatelessWidget {
-  ColoredTextBlock({required this.text, required this.textColor, required this.bgColour, this.bold = false});
+  ColoredTextBlock({
+    required this.text,
+    required this.textColor,
+    required this.bgColour,
+    this.bold = false,
+  });
 
   final String text;
   final PdfColor textColor;
@@ -47,7 +61,10 @@ class ColoredTextBlock extends pw.StatelessWidget {
       padding: const pw.EdgeInsets.all(4),
       child: pw.Text(
         text,
-        style: pw.TextStyle(color: textColor, fontWeight: bold? pw.FontWeight.bold : pw.FontWeight.normal)
+        style: pw.TextStyle(
+          color: textColor,
+          fontWeight: bold ? pw.FontWeight.bold : pw.FontWeight.normal,
+        ),
       ),
     );
   }
@@ -63,11 +80,13 @@ class UrlText extends pw.StatelessWidget {
   pw.Widget build(pw.Context context) {
     return pw.UrlLink(
       destination: url,
-      child: pw.Text(text,
-          style: const pw.TextStyle(
-            decoration: pw.TextDecoration.underline,
-            color: blue,
-          )),
+      child: pw.Text(
+        text,
+        style: const pw.TextStyle(
+          decoration: pw.TextDecoration.underline,
+          color: blue,
+        ),
+      ),
     );
   }
 }
@@ -77,14 +96,35 @@ class RichTextLinkified extends pw.StatelessWidget {
   final double? textSize;
   final String text;
 
-  RichTextLinkified( this.text, {this.textColor, this.textSize});
+  RichTextLinkified(this.text, {this.textColor, this.textSize});
 
   @override
   pw.Widget build(pw.Context context) {
     return pw.RichText(
-        text: pw.TextSpan(children:
-        linkify(text).map((t) => (t is UrlElement)?
-        pw.TextSpan(text: t.originText, style: pw.TextStyle(color: blue, decoration: pw.TextDecoration.underline, fontSize: textSize))
-            :pw.TextSpan(text: t.originText, style: pw.TextStyle(color: textColor, fontSize: textSize))).toList()));
+      text: pw.TextSpan(
+        children:
+            linkify(text)
+                .map(
+                  (t) =>
+                      (t is UrlElement)
+                          ? pw.TextSpan(
+                            text: t.originText,
+                            style: pw.TextStyle(
+                              color: blue,
+                              decoration: pw.TextDecoration.underline,
+                              fontSize: textSize,
+                            ),
+                          )
+                          : pw.TextSpan(
+                            text: t.originText,
+                            style: pw.TextStyle(
+                              color: textColor,
+                              fontSize: textSize,
+                            ),
+                          ),
+                )
+                .toList(),
+      ),
+    );
   }
 }

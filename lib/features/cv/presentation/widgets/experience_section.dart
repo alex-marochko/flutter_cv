@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cv/features/cv/presentation/utils/link_utils.dart' show launchLink;
+import 'package:flutter_cv/features/cv/presentation/utils/link_utils.dart'
+    show launchLink;
 import 'package:flutter_cv/features/cv/presentation/widgets/cv_section_card.dart';
 import 'package:flutter_cv/features/cv/domain/entities/experience.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
@@ -44,23 +45,39 @@ class _ExperienceItem extends StatelessWidget {
               padding: const EdgeInsets.only(top: 4),
 
               child: Linkify(
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-                linkStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.blue[600]),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                linkStyle: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.blue[600]),
                 text: 'Reference: ${experience.reference}',
-                onOpen: launchLink),
+                onOpen: launchLink,
               ),
-          const SizedBox(height: 8),
-          ...descriptionLines.map((line) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('• ', style: TextStyle(height: 1.4)),
-                Expanded(child: Linkify(text: line.trim(), style: const TextStyle(height: 1.4), linkStyle: const TextStyle(height: 1.4).copyWith(color: Colors.blue[600], decoration: TextDecoration.none),
-                onOpen: launchLink)),
-              ],
             ),
-          )),
+          const SizedBox(height: 8),
+          ...descriptionLines.map(
+            (line) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('• ', style: TextStyle(height: 1.4)),
+                  Expanded(
+                    child: Linkify(
+                      text: line.trim(),
+                      style: const TextStyle(height: 1.4),
+                      linkStyle: const TextStyle(height: 1.4).copyWith(
+                        color: Colors.blue[600],
+                        decoration: TextDecoration.none,
+                      ),
+                      onOpen: launchLink,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

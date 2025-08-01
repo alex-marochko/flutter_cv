@@ -12,7 +12,11 @@ class ChangeThemeButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: IconButton(
-        icon: Icon(themeCubit.state == ThemeMode.dark? Icons.light_mode : Icons.dark_mode),
+        icon: Icon(
+          themeCubit.state == ThemeMode.dark
+              ? Icons.light_mode
+              : Icons.dark_mode,
+        ),
         onPressed: () => themeCubit.toggleTheme(),
       ),
     );

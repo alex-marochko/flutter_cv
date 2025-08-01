@@ -29,10 +29,26 @@ class ContactSection extends StatelessWidget {
           spacing: 16,
           runSpacing: 12,
           children: [
-            _LinkIcon(label: 'LinkedIn', assetPath: 'assets/icons/linkedin.png', url: linkedin),
-            _LinkIcon(label: 'Telegram', assetPath: 'assets/icons/telegram.png', url: telegram),
-            _LinkIcon(label: 'GitHub', assetPath: 'assets/icons/github.png', url: github),
-            _LinkIcon(label: 'StackOverflow', assetPath: 'assets/icons/stackoverflow.png', url: stackoverflow),
+            _LinkIcon(
+              label: 'LinkedIn',
+              assetPath: 'assets/icons/linkedin.png',
+              url: linkedin,
+            ),
+            _LinkIcon(
+              label: 'Telegram',
+              assetPath: 'assets/icons/telegram.png',
+              url: telegram,
+            ),
+            _LinkIcon(
+              label: 'GitHub',
+              assetPath: 'assets/icons/github.png',
+              url: github,
+            ),
+            _LinkIcon(
+              label: 'StackOverflow',
+              assetPath: 'assets/icons/stackoverflow.png',
+              url: stackoverflow,
+            ),
           ],
         ),
       ],
@@ -53,9 +69,9 @@ class _EmailItem extends StatelessWidget {
 
   void _copyToClipboard(BuildContext context) {
     Clipboard.setData(ClipboardData(text: email));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Email copied to clipboard')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Email copied to clipboard')));
   }
 
   @override
@@ -70,8 +86,7 @@ class _EmailItem extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 email,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(),
               ),
             ],
           ),
@@ -110,10 +125,7 @@ class _LinkIcon extends StatelessWidget {
     return ActionChip(
       onPressed: _launch,
       avatar: Image.asset(assetPath, width: 20, height: 20),
-      label: Text(
-        label,
-        style: Theme.of(context).textTheme.bodyMedium,
-      ),
+      label: Text(label, style: Theme.of(context).textTheme.bodyMedium),
     );
   }
 }
