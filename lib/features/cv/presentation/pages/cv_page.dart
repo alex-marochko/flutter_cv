@@ -62,7 +62,7 @@ class CvContent extends StatelessWidget {
         const SizedBox(height: 24),
         EducationSection(education: cv.education),
         const SizedBox(height: 32),
-        const CvFooter(),
+        CvFooter(text: cv.copyright),
       ],
     );
   }

@@ -33,21 +33,25 @@ class PdfGeneratorService {
               _buildSkills(cv),
               _buildEducation(cv),
             ],
-        footer: (context) => _buildFooter(logoImage),
+        footer:
+            (context) => _buildFooter(logoImage: logoImage, text: cv.pdfFooter),
       ),
     );
 
     return pdf.save();
   }
 
-  pw.Widget _buildFooter(pw.MemoryImage logoImage) {
+  pw.Widget _buildFooter({
+    required pw.MemoryImage logoImage,
+    required String text,
+  }) {
     return pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.center,
       crossAxisAlignment: pw.CrossAxisAlignment.center,
       children: [
         pw.Image(logoImage, height: 20),
         pw.SizedBox(width: 32),
-        pw.Text('This document was generated using Flutter'),
+        pw.Text(text),
       ],
     );
   }

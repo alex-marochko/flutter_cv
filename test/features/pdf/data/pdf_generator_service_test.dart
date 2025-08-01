@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -41,6 +39,8 @@ void main() {
     skillsLanguages: 'Test Languages',
     skillsAdditional: 'Test Additional',
     education: 'Test Education',
+    copyright: 'Test Copyright',
+    pdfFooter: 'Test Footer',
     experience: [
       Experience(
         yearFrom: 2022,
@@ -49,56 +49,41 @@ void main() {
         company: 'Test Company',
         description: 'Test Description',
         reference: 'test.com',
-      )
+      ),
     ],
   );
 
-  testWidgets('generateCvPdf should return a non-empty Uint8List for valid Cv data',
-      (WidgetTester tester) async {
-    // Pumping a MaterialApp and waiting for it to settle is the most robust way
-    // to ensure the asset bundle is ready.
-    await tester.pumpWidget(const MaterialApp(home: SizedBox()));
-    await tester.pumpAndSettle();
+  testWidgets(
+    'generateCvPdf should return a non-empty Uint8List for valid Cv data',
+    (WidgetTester tester) async {
+      // Pumping a MaterialApp and waiting for it to settle is the most robust way
+      // to ensure the asset bundle is ready.
+      await tester.pumpWidget(const MaterialApp(home: SizedBox()));
+      await tester.pumpAndSettle();
 
-    // Mock the asset bundle to load the font and image
-    final fontData = await File('assets/fonts/Manrope-Regular.ttf').readAsBytes();
-    final imageData = await File('assets/logos/built_with_flutter.png').readAsBytes();
+      // Arrange
+      when(() => mockCv.nameEn).thenReturn(testCv.nameEn);
+      when(() => mockCv.nameUa).thenReturn(testCv.nameUa);
+      when(() => mockCv.position).thenReturn(testCv.position);
+      when(() => mockCv.location).thenReturn(testCv.location);
+      when(() => mockCv.phone).thenReturn(testCv.phone);
+      when(() => mockCv.email).thenReturn(testCv.email);
+      when(() => mockCv.linkedin).thenReturn(testCv.linkedin);
+      when(() => mockCv.telegram).thenReturn(testCv.telegram);
+      when(() => mockCv.github).thenReturn(testCv.github);
+      when(() => mockCv.stackoverflow).thenReturn(testCv.stackoverflow);
+      when(() => mockCv.experience).thenReturn(testCv.experience);
+      when(() => mockCv.skills).thenReturn(testCv.skills);
+      when(() => mockCv.education).thenReturn(testCv.education);
+      when(() => mockCv.copyright).thenReturn(testCv.copyright);
+      when(() => mockCv.pdfFooter).thenReturn(testCv.pdfFooter);
 
-    tester.binding.defaultBinaryMessenger.setMockMessageHandler('flutter/assets', (ByteData? message) async {
-      final String key = utf8.decode(message!.buffer.asUint8List());
-      if (key == 'assets/fonts/Manrope-Regular.ttf') {
-        return ByteData.view(fontData.buffer);
-      }
-      if (key == 'assets/logos/built_with_flutter.png') {
-        return ByteData.view(imageData.buffer);
-      }
-      return null;
-    });
+      // Act
+      final result = await pdfGeneratorService.generateCvPdf(mockCv);
 
-
-    // Arrange
-    when(() => mockCv.nameEn).thenReturn(testCv.nameEn);
-    when(() => mockCv.nameUa).thenReturn(testCv.nameUa);
-    when(() => mockCv.position).thenReturn(testCv.position);
-    when(() => mockCv.location).thenReturn(testCv.location);
-    when(() => mockCv.phone).thenReturn(testCv.phone);
-    when(() => mockCv.email).thenReturn(testCv.email);
-    when(() => mockCv.linkedin).thenReturn(testCv.linkedin);
-    when(() => mockCv.telegram).thenReturn(testCv.telegram);
-    when(() => mockCv.github).thenReturn(testCv.github);
-    when(() => mockCv.stackoverflow).thenReturn(testCv.stackoverflow);
-    when(() => mockCv.experience).thenReturn(testCv.experience);
-    when(() => mockCv.skills).thenReturn(testCv.skills);
-    when(() => mockCv.education).thenReturn(testCv.education);
-
-    // Act
-    final result = await pdfGeneratorService.generateCvPdf(mockCv);
-
-    // Assert
-    expect(result, isA<Uint8List>());
-    expect(result, isNotEmpty);
-
-    // Teardown
-    tester.binding.defaultBinaryMessenger.setMockMessageHandler('flutter/assets', null);
-  });
+      // Assert
+      expect(result, isA<Uint8List>());
+      expect(result, isNotEmpty);
+    },
+  );
 }

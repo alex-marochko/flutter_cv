@@ -18,6 +18,8 @@ class CvModel {
   final String skillsLanguages;
   final String skillsAdditional;
   final String education;
+  final String copyright;
+  final String pdfFooter;
   final List<ExperienceModel> experienceModels;
 
   CvModel({
@@ -38,12 +40,14 @@ class CvModel {
     required this.skillsAdditional,
     required this.education,
     required this.experienceModels,
+    required this.copyright,
+    required this.pdfFooter,
   });
 
   factory CvModel.fromJson(
-      Map<String, dynamic> json,
-      List<ExperienceModel> experienceModels,
-      ) {
+    Map<String, dynamic> json,
+    List<ExperienceModel> experienceModels,
+  ) {
     return CvModel(
       nameEn: json['name_en'] ?? '',
       nameUa: json['name_ua'] ?? '',
@@ -62,6 +66,8 @@ class CvModel {
       skillsAdditional: json['skills_additional'] ?? '',
       education: json['education'] ?? '',
       experienceModels: experienceModels,
+      copyright: json['copyright'] ?? '',
+      pdfFooter: json['pdf_footer'] ?? '',
     );
   }
 
@@ -83,6 +89,8 @@ class CvModel {
       skillsLanguages: skillsLanguages,
       skillsAdditional: skillsAdditional,
       education: education,
+      copyright: copyright,
+      pdfFooter: pdfFooter,
       experience: experienceModels.map((e) => e.toEntity()).toList(),
     );
   }

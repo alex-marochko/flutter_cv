@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CvFooter extends StatelessWidget {
-  const CvFooter({super.key});
+  const CvFooter({super.key, required this.text});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +13,7 @@ class CvFooter extends StatelessWidget {
       children: [
         Image.asset('assets/logos/built_with_flutter.png', height: 36),
         const SizedBox(width: 32),
-        Text(
-          '© 2025 Oleksandr Marochko. All rights reserved.',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
+        Text(text, style: Theme.of(context).textTheme.bodySmall),
       ],
     );
   }
