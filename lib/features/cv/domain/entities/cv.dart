@@ -18,6 +18,8 @@ class Cv {
   final String skillsLanguages;
   final String skillsAdditional;
   final String education;
+  final String copyright;
+  final String pdfFooter;
   final List<Experience> experience;
 
   Cv({
@@ -37,6 +39,8 @@ class Cv {
     required this.skillsLanguages,
     required this.skillsAdditional,
     required this.education,
+    required this.copyright,
+    required this.pdfFooter,
     required this.experience,
   });
 
