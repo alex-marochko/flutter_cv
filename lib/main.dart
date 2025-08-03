@@ -57,11 +57,18 @@ class CvApp extends StatelessWidget {
                             key: const ValueKey('cv_page'),
                             cv: state.cv,
                           ),
-                          CvError() => ErrorScreen(
-                            key: const ValueKey('error_screen'),
-                            failure: state.failure,
-                            onRetry: () => context.read<CvCubit>().loadCv(),
-                          ),
+                          CvError() => () {
+                            FirebaseCrashlytics.instance.recordError(
+                              state.failure,
+                              StackTrace.current,
+                              reason: 'Failed to load CV data',
+                            );
+                            return ErrorScreen(
+                              key: const ValueKey('error_screen'),
+                              failure: state.failure,
+                              onRetry: () => context.read<CvCubit>().loadCv(),
+                            );
+                          }(),
                           _ => const LoadingScreen(
                             key: ValueKey('loading_screen'),
                           ),
