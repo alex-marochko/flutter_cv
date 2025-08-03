@@ -1,4 +1,5 @@
 import 'package:flutter_cv/core/config/app_config.dart';
+import 'package:flutter_cv/core/services/analytics_service.dart';
 import 'package:flutter_cv/features/cv/data/datasources/cv_data_source.dart';
 import 'package:flutter_cv/features/cv/data/datasources/google_sheets_client.dart';
 import 'package:flutter_cv/features/cv/data/datasources/remote_cv_data_source.dart';
@@ -11,6 +12,9 @@ import 'package:http/http.dart' as http show Client;
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // Core
+  sl.registerLazySingleton(() => AnalyticsService());
+
   // Use case
   sl.registerLazySingleton(() => GetCv(sl()));
 

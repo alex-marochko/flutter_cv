@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
 import 'package:flutter_cv/core/observers/crashlytics_bloc_observer.dart';
+import 'package:flutter_cv/firebase_options.dart';
 
 class AppInitializer {
   static Future<void> initialize() async {
@@ -16,7 +17,9 @@ class AppInitializer {
   }
 
   static Future<void> _initializeFirebase() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
