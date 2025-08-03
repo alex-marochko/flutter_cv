@@ -18,13 +18,6 @@ class AppInitializer {
   static Future<void> _initializeFirebase() async {
     await Firebase.initializeApp();
 
-    if (kDebugMode) {
-      // Force enable Crashlytics collection while doing every day development.
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
-        true,
-      ); // todo remove
-    }
-
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
     };
