@@ -54,3 +54,4 @@ app.*.map.json
 
 #Firebase config related
 lib/firebase_options.dart
+devtools_options.yaml
