@@ -46,7 +46,7 @@ void main() {
     );
 
     blocTest<CvCubit, CvState>(
-      'should emit [CvLoading, CvError] when getCv fails',
+      'should emit [CvLoading, CvError] and throw failure when getCv fails',
       build: () {
         when(() => mockGetCv()).thenThrow(tFailure);
         return cvCubit;
@@ -56,6 +56,7 @@ void main() {
         CvLoading(),
         const CvError(tFailure),
       ],
+      errors: () => [tFailure],
     );
   });
 }
