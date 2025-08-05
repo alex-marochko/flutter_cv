@@ -84,30 +84,26 @@ class CvWebContent extends StatelessWidget {
     return Stack(
       alignment: Alignment.topRight,
       children: [
-        LayoutBuilder(
-          builder: (_, constraints) {
-            final hide = constraints.maxHeight < 1024;
-            return AnimatedOpacity(
-              opacity: hide ? 0 : 1,
-              duration: const Duration(milliseconds: 300),
-              child: MosaicCloud(
-                spacing: 20,
-                children:
-                    _tags
-                        .map(
-                          (s) => Text(
-                            s,
-                            style: TextStyle(
-                              color: Colors.blue.withAlpha(30),
-                              fontWeight: FontWeight.w900,
-                              fontSize: 24,
-                            ),
-                          ),
-                        )
-                        .toList(),
-              ),
-            );
-          },
+        OverflowBox(
+          alignment: Alignment.topRight,
+          maxWidth: double.infinity,
+          maxHeight: double.infinity,
+          child: MosaicCloud(
+            spacing: 20,
+            children:
+                _tags
+                    .map(
+                      (s) => Text(
+                        s,
+                        style: TextStyle(
+                          color: Colors.blue.withAlpha(30),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 24,
+                        ),
+                      ),
+                    )
+                    .toList(),
+          ),
         ),
         SingleChildScrollView(
           padding: const EdgeInsets.all(24),
