@@ -63,7 +63,10 @@ class _EmailItem extends StatelessWidget {
   const _EmailItem({required this.email});
 
   Future<void> _launchEmail() async {
-    sl<AnalyticsService>().logEvent('contact_click', parameters: {'type': 'email'});
+    sl<AnalyticsService>().logEvent(
+      'contact_click',
+      parameters: {'type': 'email'},
+    );
     final uri = Uri(scheme: 'mailto', path: email);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -118,7 +121,10 @@ class _LinkIcon extends StatelessWidget {
   });
 
   Future<void> _launch() async {
-    sl<AnalyticsService>().logEvent('contact_click', parameters: {'type': label});
+    sl<AnalyticsService>().logEvent(
+      'contact_click',
+      parameters: {'type': label},
+    );
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);

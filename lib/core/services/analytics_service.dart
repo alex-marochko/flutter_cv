@@ -4,9 +4,6 @@ class AnalyticsService {
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
   Future<void> logEvent(String name, {Map<String, Object>? parameters}) async {
-    await _analytics.logEvent(
-      name: name,
-      parameters: parameters,
-    );
+    await _analytics.logEvent(name: name, parameters: parameters);
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockGetCv extends Mock implements GetCv {}
+
 class MockCv extends Mock implements Cv {}
 
 void main() {
@@ -39,10 +40,7 @@ void main() {
         return cvCubit;
       },
       act: (cubit) => cubit.loadCv(),
-      expect: () => <CvState>[
-        CvLoading(),
-        CvLoaded(mockCv),
-      ],
+      expect: () => <CvState>[CvLoading(), CvLoaded(mockCv)],
     );
 
     blocTest<CvCubit, CvState>(
@@ -52,10 +50,7 @@ void main() {
         return cvCubit;
       },
       act: (cubit) => cubit.loadCv(),
-      expect: () => <CvState>[
-        CvLoading(),
-        const CvError(tFailure),
-      ],
+      expect: () => <CvState>[CvLoading(), const CvError(tFailure)],
       errors: () => [tFailure],
     );
   });

@@ -31,18 +31,18 @@ class PdfExportButton extends StatelessWidget {
                 (state is! CvLoaded)
                     ? null
                     : () async {
-                        sl<AnalyticsService>().logEvent('download_pdf');
-                        final cv = state.cv;
-                        final pdfData = await PdfGeneratorService().generateCvPdf(
-                          cv,
-                        );
-                        final filename = 'CV ${cv.nameEn} - ${cv.position}.pdf';
+                      sl<AnalyticsService>().logEvent('download_pdf');
+                      final cv = state.cv;
+                      final pdfData = await PdfGeneratorService().generateCvPdf(
+                        cv,
+                      );
+                      final filename = 'CV ${cv.nameEn} - ${cv.position}.pdf';
 
-                        await Printing.sharePdf(
-                          bytes: pdfData,
-                          filename: filename,
-                        );
-                      },
+                      await Printing.sharePdf(
+                        bytes: pdfData,
+                        filename: filename,
+                      );
+                    },
           );
         },
       ),

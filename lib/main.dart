@@ -39,17 +39,17 @@ class CvApp extends StatelessWidget {
                         duration: const Duration(milliseconds: 500),
                         child: switch (state) {
                           CvLoaded() => ResponsiveCvPage(
-                              key: const ValueKey('cv_page'),
-                              cv: state.cv,
-                            ),
+                            key: const ValueKey('cv_page'),
+                            cv: state.cv,
+                          ),
                           CvError() => ErrorScreen(
-                              key: const ValueKey('error_screen'),
-                              failure: state.failure,
-                              onRetry: () => context.read<CvCubit>().loadCv(),
-                            ),
+                            key: const ValueKey('error_screen'),
+                            failure: state.failure,
+                            onRetry: () => context.read<CvCubit>().loadCv(),
+                          ),
                           _ => const LoadingScreen(
-                              key: ValueKey('loading_screen'),
-                            ),
+                            key: ValueKey('loading_screen'),
+                          ),
                         },
                       );
                     },
