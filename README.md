@@ -5,10 +5,8 @@ A personal CV website built with Flutter to showcase development skills and prov
 ## 🚀 Key Features
 
 - **Dynamic Content:** Resume data is fetched from **Google Sheets**, allowing real-time updates without redeploying the app.
-- **Responsive Design:** Optimized for both desktop and mobile browsers.
 - **PDF Export:** Users can download a PDF version of the resume directly from the website.
 - **CI/CD:** Automated tests, linting, and formatting via **GitHub Actions** on every push and pull request.
-- **Theming:** Supports both light and dark modes.
 
 ## 🏗️ Architecture & Stack
 
@@ -38,7 +36,6 @@ This setup enables secure, editable, and redeploy-free content management.
 
 ## 📦 Published Package
 
-As part of this project, a reusable layout widget — [**mosaic_cloud**](https://pub.dev/packages/mosaic_cloud) — was created and published on pub.dev.  
-It arranges widgets in a mosaic-like layout and is used on the website to display skill tags.
-
+This project includes a custom layout widget — [**mosaic_cloud**](https://pub.dev/packages/mosaic_cloud) — published on pub.dev.  
+It creates a dynamic mosaic of widgets, used decoratively during app loading to demonstrate Flutter’s animation and layout capabilities.
 ---
