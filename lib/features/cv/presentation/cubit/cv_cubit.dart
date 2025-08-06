@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_cv/core/error/failures.dart';
+import 'package:flutter_cv/core/utils/timing_utils.dart';
 import 'package:flutter_cv/features/cv/domain/usecases/get_cv.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 
@@ -12,7 +13,7 @@ class CvCubit extends Cubit<CvState> {
   Future<void> loadCv() async {
     try {
       emit(CvLoading());
-      final cv = await getCv();
+      final cv = await getCv().withMinDuration(const Duration(seconds: 2));
       emit(CvLoaded(cv));
     } on Failure catch (e) {
       emit(CvError(e));
