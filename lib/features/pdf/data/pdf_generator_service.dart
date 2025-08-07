@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:flutter_cv/core/error/failures.dart';
 import 'package:flutter_cv/core/services/url_service_provider.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/pdf/presentation/widgets/pdf_widgets.dart';
@@ -9,36 +11,43 @@ import 'package:pdf/widgets.dart' as pw;
 enum CategoryTitle { experience, skills, education }
 
 class PdfGeneratorService {
-  Future<Uint8List> generateCvPdf(Cv cv) async {
-    final fontData = await rootBundle.load("assets/fonts/Manrope-Regular.ttf");
-    final font = pw.Font.ttf(fontData);
-    final logoImage = pw.MemoryImage(
-      (await rootBundle.load(
-        'assets/logos/built_with_flutter.png',
-      )).buffer.asUint8List(),
-    );
-    final pdf = pw.Document(
-      theme: pw.ThemeData.withFont(
-        base: font,
-      ).copyWith(defaultTextStyle: const pw.TextStyle(fontSize: 9)),
-    );
+  Future<Either<Failure, Uint8List>> generateCvPdf(Cv cv) async {
+    try {
+      final fontData = await rootBundle.load("assets/fonts/Manrope-Regular.ttf");
+      final font = pw.Font.ttf(fontData);
+      final logoImage = pw.MemoryImage(
+        (await rootBundle.load(
+          'assets/logos/built_with_flutter.png',
+        ))
+            .buffer
+            .asUint8List(),
+      );
+      final pdf = pw.Document(
+        theme: pw.ThemeData.withFont(
+          base: font,
+        ).copyWith(defaultTextStyle: const pw.TextStyle(fontSize: 9)),
+      );
 
-    pdf.addPage(
-      pw.MultiPage(
-        margin: const pw.EdgeInsets.all(32),
-        build:
-            (context) => [
-              _buildHeader(cv),
-              _buildExperience(cv),
-              _buildSkills(cv),
-              _buildEducation(cv),
-            ],
-        footer:
-            (context) => _buildFooter(logoImage: logoImage, text: cv.pdfFooter),
-      ),
-    );
+      pdf.addPage(
+        pw.MultiPage(
+          margin: const pw.EdgeInsets.all(32),
+          build: (context) => [
+            _buildHeader(cv),
+            _buildExperience(cv),
+            _buildSkills(cv),
+            _buildEducation(cv),
+          ],
+          footer: (context) =>
+              _buildFooter(logoImage: logoImage, text: cv.pdfFooter),
+        ),
+      );
 
-    return pdf.save();
+      return Right(await pdf.save());
+    } catch (e) {
+      return const Left(
+        PdfGenerationFailure(message: 'Failed to generate PDF'),
+      );
+    }
   }
 
   pw.Widget _buildFooter({

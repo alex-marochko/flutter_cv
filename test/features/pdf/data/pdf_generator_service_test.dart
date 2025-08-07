@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
@@ -82,8 +83,14 @@ void main() {
       final result = await pdfGeneratorService.generateCvPdf(mockCv);
 
       // Assert
-      expect(result, isA<Uint8List>());
-      expect(result, isNotEmpty);
+      expect(result, isA<Right>());
+      result.fold(
+        (l) => fail('should not return a failure'),
+        (r) {
+          expect(r, isA<Uint8List>());
+          expect(r, isNotEmpty);
+        },
+      );
     },
   );
 }

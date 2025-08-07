@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
@@ -27,22 +28,36 @@ class PdfExportButton extends StatelessWidget {
             ),
             icon: const Icon(Icons.download, color: Colors.white),
             label: const Text('PDF', style: TextStyle(color: Colors.white)),
-            onPressed:
-                (state is! CvLoaded)
-                    ? null
-                    : () async {
-                      sl<AnalyticsService>().logEvent('download_pdf');
-                      final cv = state.cv;
-                      final pdfData = await PdfGeneratorService().generateCvPdf(
-                        cv,
-                      );
-                      final filename = 'CV ${cv.nameEn} - ${cv.position}.pdf';
+            onPressed: (state is! CvLoaded)
+                ? null
+                : () async {
+                    sl<AnalyticsService>().logEvent('download_pdf');
+                    final cv = state.cv;
+                    final result = await PdfGeneratorService().generateCvPdf(cv);
 
-                      await Printing.sharePdf(
-                        bytes: pdfData,
-                        filename: filename,
-                      );
-                    },
+                    result.fold(
+                      (failure) {
+                        FirebaseCrashlytics.instance.recordError(
+                          failure,
+                          StackTrace.current,
+                          reason: 'A handled failure occurred in PdfExportButton',
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(failure.message),
+                          ),
+                        );
+                      },
+                      (pdfData) async {
+                        final filename =
+                            'CV ${cv.nameEn} - ${cv.position}.pdf';
+                        await Printing.sharePdf(
+                          bytes: pdfData,
+                          filename: filename,
+                        );
+                      },
+                    );
+                  },
           );
         },
       ),

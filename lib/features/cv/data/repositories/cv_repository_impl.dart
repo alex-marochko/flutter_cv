@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_cv/core/error/exceptions.dart';
 import 'package:flutter_cv/core/error/failures.dart';
 import 'package:flutter_cv/features/cv/data/datasources/cv_data_source.dart';
@@ -10,14 +11,14 @@ class CvRepositoryImpl implements CvRepository {
   CvRepositoryImpl(this.dataSource);
 
   @override
-  Future<Cv> getCv() async {
+  Future<Either<Failure, Cv>> getCv() async {
     try {
       final model = await dataSource.fetchRawData();
-      return model.toEntity();
+      return Right(model.toEntity());
     } on ServerException {
-      throw GeneralFailure(message: 'Failed to load data from server');
+      return const Left(ServerFailure(message: 'Failed to load data from server'));
     } catch (e) {
-      throw GeneralFailure(message: e.toString());
+      return Left(GeneralFailure(message: e.toString()));
     }
   }
 }

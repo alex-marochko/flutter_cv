@@ -7,6 +7,17 @@ class ErrorScreen extends StatelessWidget {
 
   const ErrorScreen({super.key, required this.failure, required this.onRetry});
 
+  String _getErrorMessage(Failure failure) {
+    switch (failure.runtimeType) {
+      case ServerFailure:
+        return 'Failed to fetch data from the server. Please try again later.';
+      case PdfGenerationFailure:
+        return 'Failed to generate PDF. Please try again.';
+      default:
+        return failure.message;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +26,7 @@ class ErrorScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(failure.message),
+            Text(_getErrorMessage(failure)),
             const SizedBox(height: 16),
             ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
           ],
