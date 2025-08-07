@@ -9,12 +9,12 @@ class ErrorScreen extends StatelessWidget {
 
   String _getErrorMessage(Failure failure) {
     switch (failure.runtimeType) {
-      case ServerFailure:
+      case ServerFailure _:
         return 'Failed to fetch data from the server. Please try again later.';
-      case PdfGenerationFailure:
+      case PdfGenerationFailure _:
         return 'Failed to generate PDF. Please try again.';
       default:
-        return failure.message;
+        return 'Failed to fetch data. Please try again.';
     }
   }
 
