@@ -22,7 +22,7 @@ Future<void> setupFirebaseCoreMocksForTest({Callback? customCallback}) async {
 
   // Mock the FirebaseCore platform channel
   final channel = MethodChannel('plugins.flutter.io/firebase_core');
-  channel.setMockMethodCallHandler((call) async {
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (call) async {
     if (call.method == 'Firebase#initializeCore') {
       return [
         {
