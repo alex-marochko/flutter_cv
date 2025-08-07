@@ -10,9 +10,7 @@ abstract class CrashReportingService {
     bool fatal = false,
   });
 
-  Future<void> recordFlutterFatalError(
-    FlutterErrorDetails flutterErrorDetails,
-  );
+  Future<void> recordFlutterFatalError(FlutterErrorDetails flutterErrorDetails);
 
   void log(String message);
 }

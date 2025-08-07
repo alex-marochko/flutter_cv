@@ -6,13 +6,17 @@ class CrashReportingBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
-    sl<CrashReportingService>().log('Bloc: ${bloc.runtimeType}, Event: ${event.runtimeType}');
+    sl<CrashReportingService>().log(
+      'Bloc: ${bloc.runtimeType}, Event: ${event.runtimeType}',
+    );
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    sl<CrashReportingService>().log('Bloc: ${bloc.runtimeType}, Transition: ${transition.event.runtimeType} -> ${transition.nextState.runtimeType}');
+    sl<CrashReportingService>().log(
+      'Bloc: ${bloc.runtimeType}, Transition: ${transition.event.runtimeType} -> ${transition.nextState.runtimeType}',
+    );
   }
 
   @override

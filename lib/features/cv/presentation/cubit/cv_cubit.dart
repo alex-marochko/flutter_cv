@@ -14,16 +14,13 @@ class CvCubit extends Cubit<CvState> {
   Future<void> loadCv() async {
     emit(CvLoading());
     final result = await getCv().withMinDuration(const Duration(seconds: 2));
-    result.fold(
-      (failure) {
-        sl<CrashReportingService>().recordError(
-          failure,
-          StackTrace.current,
-          reason: 'A handled failure occurred in CvCubit',
-        );
-        emit(CvError(failure));
-      },
-      (cv) => emit(CvLoaded(cv)),
-    );
+    result.fold((failure) {
+      sl<CrashReportingService>().recordError(
+        failure,
+        StackTrace.current,
+        reason: 'A handled failure occurred in CvCubit',
+      );
+      emit(CvError(failure));
+    }, (cv) => emit(CvLoaded(cv)));
   }
 }

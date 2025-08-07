@@ -16,7 +16,9 @@ class CvRepositoryImpl implements CvRepository {
       final model = await dataSource.fetchRawData();
       return Right(model.toEntity());
     } on ServerException {
-      return const Left(ServerFailure(message: 'Failed to load data from server'));
+      return const Left(
+        ServerFailure(message: 'Failed to load data from server'),
+      );
     } catch (e) {
       return Left(GeneralFailure(message: e.toString()));
     }

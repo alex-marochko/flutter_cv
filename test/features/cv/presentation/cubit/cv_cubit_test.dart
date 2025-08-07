@@ -25,7 +25,9 @@ void main() {
   setUp(() {
     mockGetCv = MockGetCv();
     mockCrashReportingService = MockCrashReportingService();
-    sl.registerLazySingleton<CrashReportingService>(() => mockCrashReportingService);
+    sl.registerLazySingleton<CrashReportingService>(
+      () => mockCrashReportingService,
+    );
     cvCubit = CvCubit(mockGetCv);
     mockCv = MockCv();
   });
@@ -56,7 +58,13 @@ void main() {
       'should emit [CvLoading, CvError] when getCv fails',
       build: () {
         when(() => mockGetCv()).thenAnswer((_) async => const Left(tFailure));
-        when(() => mockCrashReportingService.recordError(any(), any(), reason: any(named: 'reason'))).thenAnswer((_) async {});
+        when(
+          () => mockCrashReportingService.recordError(
+            any(),
+            any(),
+            reason: any(named: 'reason'),
+          ),
+        ).thenAnswer((_) async {});
         return cvCubit;
       },
       act: (cubit) => cubit.loadCv(),

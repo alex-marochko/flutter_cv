@@ -28,36 +28,38 @@ class PdfExportButton extends StatelessWidget {
             ),
             icon: const Icon(Icons.download, color: Colors.white),
             label: const Text('PDF', style: TextStyle(color: Colors.white)),
-            onPressed: (state is! CvLoaded)
-                ? null
-                : () async {
-                    sl<AnalyticsService>().logEvent('download_pdf');
-                    final cv = state.cv;
-                    final result = await PdfGeneratorService().generateCvPdf(cv);
+            onPressed:
+                (state is! CvLoaded)
+                    ? null
+                    : () async {
+                      sl<AnalyticsService>().logEvent('download_pdf');
+                      final cv = state.cv;
+                      final result = await PdfGeneratorService().generateCvPdf(
+                        cv,
+                      );
 
-                    result.fold(
-                      (failure) {
-                        sl<CrashReportingService>().recordError(
-                          failure,
-                          StackTrace.current,
-                          reason: 'A handled failure occurred in PdfExportButton',
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(failure.message),
-                          ),
-                        );
-                      },
-                      (pdfData) async {
-                        final filename =
-                            'CV ${cv.nameEn} - ${cv.position}.pdf';
-                        await Printing.sharePdf(
-                          bytes: pdfData,
-                          filename: filename,
-                        );
-                      },
-                    );
-                  },
+                      result.fold(
+                        (failure) {
+                          sl<CrashReportingService>().recordError(
+                            failure,
+                            StackTrace.current,
+                            reason:
+                                'A handled failure occurred in PdfExportButton',
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(failure.message)),
+                          );
+                        },
+                        (pdfData) async {
+                          final filename =
+                              'CV ${cv.nameEn} - ${cv.position}.pdf';
+                          await Printing.sharePdf(
+                            bytes: pdfData,
+                            filename: filename,
+                          );
+                        },
+                      );
+                    },
           );
         },
       ),

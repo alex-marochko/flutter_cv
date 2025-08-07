@@ -84,13 +84,10 @@ void main() {
 
       // Assert
       expect(result, isA<Right>());
-      result.fold(
-        (l) => fail('should not return a failure'),
-        (r) {
-          expect(r, isA<Uint8List>());
-          expect(r, isNotEmpty);
-        },
-      );
+      result.fold((l) => fail('should not return a failure'), (r) {
+        expect(r, isA<Uint8List>());
+        expect(r, isNotEmpty);
+      });
     },
   );
 }

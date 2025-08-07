@@ -13,14 +13,14 @@ enum CategoryTitle { experience, skills, education }
 class PdfGeneratorService {
   Future<Either<Failure, Uint8List>> generateCvPdf(Cv cv) async {
     try {
-      final fontData = await rootBundle.load("assets/fonts/Manrope-Regular.ttf");
+      final fontData = await rootBundle.load(
+        "assets/fonts/Manrope-Regular.ttf",
+      );
       final font = pw.Font.ttf(fontData);
       final logoImage = pw.MemoryImage(
         (await rootBundle.load(
           'assets/logos/built_with_flutter.png',
-        ))
-            .buffer
-            .asUint8List(),
+        )).buffer.asUint8List(),
       );
       final pdf = pw.Document(
         theme: pw.ThemeData.withFont(
@@ -31,14 +31,16 @@ class PdfGeneratorService {
       pdf.addPage(
         pw.MultiPage(
           margin: const pw.EdgeInsets.all(32),
-          build: (context) => [
-            _buildHeader(cv),
-            _buildExperience(cv),
-            _buildSkills(cv),
-            _buildEducation(cv),
-          ],
-          footer: (context) =>
-              _buildFooter(logoImage: logoImage, text: cv.pdfFooter),
+          build:
+              (context) => [
+                _buildHeader(cv),
+                _buildExperience(cv),
+                _buildSkills(cv),
+                _buildEducation(cv),
+              ],
+          footer:
+              (context) =>
+                  _buildFooter(logoImage: logoImage, text: cv.pdfFooter),
         ),
       );
 

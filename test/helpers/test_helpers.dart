@@ -22,36 +22,36 @@ Future<void> setupFirebaseCoreMocksForTest({Callback? customCallback}) async {
 
   // Mock the FirebaseCore platform channel
   final channel = MethodChannel('plugins.flutter.io/firebase_core');
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, (call) async {
-    if (call.method == 'Firebase#initializeCore') {
-      return [
-        {
-          'name': defaultFirebaseAppName,
-          'options': {
-            'apiKey': '123',
-            'appId': '1:123:android:123',
-            'messagingSenderId': '123',
-            'projectId': '123',
-          },
-          'pluginConstants': {},
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (call) async {
+        if (call.method == 'Firebase#initializeCore') {
+          return [
+            {
+              'name': defaultFirebaseAppName,
+              'options': {
+                'apiKey': '123',
+                'appId': '1:123:android:123',
+                'messagingSenderId': '123',
+                'projectId': '123',
+              },
+              'pluginConstants': {},
+            },
+          ];
         }
-      ];
-    }
-    if (call.method == 'Firebase#initializeApp') {
-      return {
-        'name': call.arguments['appName'],
-        'options': call.arguments['options'],
-        'pluginConstants': {},
-      };
-    }
+        if (call.method == 'Firebase#initializeApp') {
+          return {
+            'name': call.arguments['appName'],
+            'options': call.arguments['options'],
+            'pluginConstants': {},
+          };
+        }
 
-    if (customCallback != null) {
-      customCallback(call);
-    }
+        if (customCallback != null) {
+          customCallback(call);
+        }
 
-    return null;
-  });
-
+        return null;
+      });
 
   // Restore the original delegate after the test is complete
   addTearDown(() => Firebase.delegatePackingProperty = original);
