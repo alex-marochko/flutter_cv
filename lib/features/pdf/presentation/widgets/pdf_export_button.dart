@@ -1,4 +1,4 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter_cv/core/services/crash_reporting/crash_reporting_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
@@ -37,7 +37,7 @@ class PdfExportButton extends StatelessWidget {
 
                     result.fold(
                       (failure) {
-                        FirebaseCrashlytics.instance.recordError(
+                        sl<CrashReportingService>().recordError(
                           failure,
                           StackTrace.current,
                           reason: 'A handled failure occurred in PdfExportButton',
