@@ -2,7 +2,7 @@ import 'package:flutter_cv/core/di/service_locator.dart';
 import 'package:flutter_cv/core/services/crash_reporting/crash_reporting_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CrashlyticsBlocObserver extends BlocObserver {
+class CrashReportingBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
-import 'package:flutter_cv/core/observers/crashlytics_bloc_observer.dart';
+import 'package:flutter_cv/core/observers/crash_reporting_bloc_observer.dart';
 import 'package:flutter_cv/firebase_options.dart';
 
 class AppInitializer {
@@ -32,6 +32,6 @@ class AppInitializer {
   }
 
   static void _initializeBlocObserver() {
-    Bloc.observer = CrashlyticsBlocObserver();
+    Bloc.observer = CrashReportingBlocObserver();
   }
 }
