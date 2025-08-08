@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_cv/core/error/failures.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 
 abstract class CvState extends Equatable {
@@ -22,10 +23,10 @@ class CvLoaded extends CvState {
 }
 
 class CvError extends CvState {
-  final String message;
+  final Failure failure;
 
-  const CvError(this.message);
+  const CvError(this.failure);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [failure];
 }

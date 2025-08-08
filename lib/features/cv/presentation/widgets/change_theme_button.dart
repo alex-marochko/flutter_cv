@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cv/core/di/service_locator.dart';
+import 'package:flutter_cv/core/services/analytics_service.dart';
 import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 
 class ChangeThemeButton extends StatelessWidget {
@@ -17,7 +19,10 @@ class ChangeThemeButton extends StatelessWidget {
               ? Icons.light_mode
               : Icons.dark_mode,
         ),
-        onPressed: () => themeCubit.toggleTheme(),
+        onPressed: () {
+          sl<AnalyticsService>().logEvent('toggle_theme');
+          themeCubit.toggleTheme();
+        },
       ),
     );
   }

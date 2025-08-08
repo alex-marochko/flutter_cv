@@ -39,7 +39,22 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
+# macOS
+/macos/build/
+/macos/DerivedData/
+/macos/.symlinks/
+/macos/Pods/
+/macos/Runner.xcworkspace/xcuserdata/
+/macos/Runner.xcworkspace/xcshareddata/
+
 # Android Studio will place build artifacts here
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+#Firebase config related
+lib/firebase_options.dart
+firebase.json
+
+
+devtools_options.yaml

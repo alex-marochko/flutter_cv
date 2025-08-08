@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cv/core/di/service_locator.dart';
+import 'package:flutter_cv/core/services/analytics_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
@@ -61,6 +63,10 @@ class _EmailItem extends StatelessWidget {
   const _EmailItem({required this.email});
 
   Future<void> _launchEmail() async {
+    sl<AnalyticsService>().logEvent(
+      'contact_click',
+      parameters: {'type': 'email'},
+    );
     final uri = Uri(scheme: 'mailto', path: email);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -68,6 +74,7 @@ class _EmailItem extends StatelessWidget {
   }
 
   void _copyToClipboard(BuildContext context) {
+    sl<AnalyticsService>().logEvent('copy_email');
     Clipboard.setData(ClipboardData(text: email));
     ScaffoldMessenger.of(
       context,
@@ -114,6 +121,10 @@ class _LinkIcon extends StatelessWidget {
   });
 
   Future<void> _launch() async {
+    sl<AnalyticsService>().logEvent(
+      'contact_click',
+      parameters: {'type': label},
+    );
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);

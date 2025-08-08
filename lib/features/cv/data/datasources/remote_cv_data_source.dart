@@ -1,4 +1,5 @@
 import 'package:flutter_cv/core/config/app_config.dart';
+import 'package:flutter_cv/core/error/exceptions.dart';
 import 'package:flutter_cv/features/cv/data/datasources/cv_data_source.dart';
 import 'package:flutter_cv/features/cv/data/enums/cv_sheet.dart';
 import 'package:flutter_cv/features/cv/data/models/experience_model.dart';
@@ -35,22 +36,28 @@ class RemoteCvDataSource implements CvDataSource {
 
     if (basicResponse.statusCode != 200 ||
         experienceResponse.statusCode != 200) {
-      throw Exception('Failed to load data from Google Sheets');
+      throw ServerException();
     }
 
     // Parse basic key-value map
     final basicJson = jsonDecode(utf8.decode(basicResponse.bodyBytes));
+    final basicData = basicJson['data'];
+    if (basicData == null) throw ServerException();
     final Map<String, dynamic> basicMap = {
-      for (var row in basicJson['data']) row[0]: row[1],
+      for (var row in basicData) row[0]: row[1],
     };
 
     // Parse experience list
     final experienceJson = jsonDecode(
       utf8.decode(experienceResponse.bodyBytes),
     );
-    final List<dynamic> rows = experienceJson['data'];
+    final List<dynamic>? rows = experienceJson['data'];
+    final List<dynamic>? columns = experienceJson['columns'];
+    if (rows == null || columns == null) {
+      throw ServerException();
+    }
 
-    final headers = List<String>.from(experienceJson['columns']);
+    final headers = List<String>.from(columns);
 
     // Expected set of headers
     const expectedHeaders = {
@@ -66,7 +73,7 @@ class RemoteCvDataSource implements CvDataSource {
     final missing = expectedHeaders.difference(headerSet);
 
     if (missing.isNotEmpty) {
-      throw Exception('Missing required columns in experience sheet: $missing');
+      throw ServerException();
     }
 
     final List<ExperienceModel> experience =

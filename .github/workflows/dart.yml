@@ -26,6 +26,9 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
 
+      - name: Decode firebase_options.dart
+        run: echo "${{ secrets.FIREBASE_OPTIONS_BASE64 }}" | base64 --decode > lib/firebase_options.dart
+
       - name: Analyze project source
         run: flutter analyze
 

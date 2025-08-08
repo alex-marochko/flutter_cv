@@ -1,5 +1,8 @@
+import 'package:flutter_cv/core/services/crash_reporting/crash_reporting_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cv/core/di/service_locator.dart';
+import 'package:flutter_cv/core/services/analytics_service.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 import 'package:flutter_cv/features/pdf/data/pdf_generator_service.dart';
@@ -29,15 +32,32 @@ class PdfExportButton extends StatelessWidget {
                 (state is! CvLoaded)
                     ? null
                     : () async {
+                      sl<AnalyticsService>().logEvent('download_pdf');
                       final cv = state.cv;
-                      final pdfData = await PdfGeneratorService().generateCvPdf(
+                      final result = await PdfGeneratorService().generateCvPdf(
                         cv,
                       );
-                      final filename = 'CV ${cv.nameEn} - ${cv.position}.pdf';
 
-                      await Printing.sharePdf(
-                        bytes: pdfData,
-                        filename: filename,
+                      result.fold(
+                        (failure) {
+                          sl<CrashReportingService>().recordError(
+                            failure,
+                            StackTrace.current,
+                            reason:
+                                'A handled failure occurred in PdfExportButton',
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(failure.message)),
+                          );
+                        },
+                        (pdfData) async {
+                          final filename =
+                              'CV ${cv.nameEn} - ${cv.position}.pdf';
+                          await Printing.sharePdf(
+                            bytes: pdfData,
+                            filename: filename,
+                          );
+                        },
                       );
                     },
           );

@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_cv/core/error/failures.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
 import 'package:flutter_cv/features/cv/domain/repositories/cv_repository.dart';
 
@@ -7,7 +9,7 @@ class GetCv {
   GetCv(this.repository);
 
   /// Retrieves the CV entity from the repository
-  Future<Cv> call() {
+  Future<Either<Failure, Cv>> call() {
     return repository.getCv();
   }
 }
