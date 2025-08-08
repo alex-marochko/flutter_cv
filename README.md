@@ -29,10 +29,11 @@ The project follows **Clean Architecture** with a clear separation into:
 
 1. **Content Source:** Resume data is stored in a **Google Sheet**.
 2. **Google Apps Script:** Serves as a lightweight REST API.
-3. **Cloudflare Worker:** Acts as a proxy for added security and potential caching.
+3. **Cloudflare Worker:** Acts as a proxy with active caching and rate limiting for backend protection.
 4. **Flutter Web App:** Fetches and renders content dynamically.
+5. **GitHub Pages:** Hosts the built Flutter Web app, automatically deployed on every push to the `main` branch via GitHub Actions.
 
-This setup enables secure, editable, and redeploy-free content management.
+This setup enables secure, fast, and redeploy-free content management.
 
 ## 📦 Published Package
 
