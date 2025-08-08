@@ -34,11 +34,9 @@ jobs:
       - name: Build web
         run: flutter build web --release --base-href "/"
 
-      - name: Add CNAME file
-        run: echo 'marochko.dev' > build/web/CNAME
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
+          cname: marochko.dev
