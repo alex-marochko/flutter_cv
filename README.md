@@ -39,4 +39,3 @@ This setup enables secure, fast, and redeploy-free content management.
 
 This project includes a custom layout widget — [**mosaic_cloud**](https://pub.dev/packages/mosaic_cloud) — published on pub.dev.  
 It creates a dynamic mosaic of widgets, used decoratively during app loading to demonstrate Flutter’s animation and layout capabilities.
----
