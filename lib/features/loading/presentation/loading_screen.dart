@@ -123,7 +123,7 @@ class _LoadingScreenState extends State<LoadingScreen>
             padding: const EdgeInsets.all(16.0),
             child: FractionallySizedBox(
               widthFactor: 0.25,
-              child: const LinearProgressIndicator(),
+              child: RepaintBoundary(child: const LinearProgressIndicator()),
             ),
           ),
         ],
