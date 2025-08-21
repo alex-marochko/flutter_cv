@@ -87,6 +87,7 @@ class _EmailChip extends StatelessWidget {
       children: [
         ActionChip(
           onPressed: _launchEmail,
+          elevation: 4,
           label: Row(
             children: [
               const Icon(Icons.email, size: 20),
@@ -137,6 +138,7 @@ class _LinkChip extends StatelessWidget {
       onPressed: _launch,
       avatar: Image.asset(assetPath, width: 20, height: 20),
       label: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+      elevation: 4,
     );
   }
 }
