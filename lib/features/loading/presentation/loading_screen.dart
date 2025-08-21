@@ -1,6 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_cv/features/loading/presentation/skills.dart';
+import 'package:flutter_cv/features/loading/presentation/widgets/skill_tag.dart';
 import 'package:mosaic_cloud/mosaic_cloud.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -11,119 +11,64 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _entranceController;
+  late AnimationController _repeatingController;
 
-  static const List<String> _skills = [
-    'Flutter',
-    'Dart',
-    'BLoC',
-    'Provider',
-    'GetIt',
-    'Mockito',
-    'SOLID',
-    'Clean Architecture',
-    'Android',
-    'Kotlin',
-    'Git',
-    'iOS',
-    'CI/CD',
-    'Firebase',
-    'REST API',
-    'UI/UX',
-    'Material Design',
-    'unit tests',
-    'Sentry',
-    'Crashlytics',
-    'Java',
-    'Figma',
-    'sounds',
-  ];
+  static const _repeatingAnimationDurationPerSkill = Duration(
+    milliseconds: 700,
+  );
 
   @override
   void initState() {
     super.initState();
-    _entranceController = AnimationController(
-      duration: const Duration(seconds: 2),
+    _repeatingController = AnimationController(
+      duration: _repeatingAnimationDurationPerSkill * skills.length,
       vsync: this,
-    )..forward();
+    );
+
+    _entranceController =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _repeatingController.repeat();
+            }
+          })
+          ..forward();
   }
 
   @override
   void dispose() {
     _entranceController.dispose();
+    _repeatingController.dispose();
     super.dispose();
-  }
-
-  FontWeight _getWeightForSize(double fontSize) {
-    if (fontSize > 20) return FontWeight.w700;
-    if (fontSize > 16) return FontWeight.w500;
-    return FontWeight.w300;
   }
 
   @override
   Widget build(BuildContext context) {
-    const basicFontSize = 24.0;
-    const minFontSize = 12.0;
-    final textStyle = TextStyle(
-      color: Theme.of(context).textTheme.bodyLarge?.color,
-    );
-
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           Expanded(
             child: Center(
               child: MosaicCloud(
-                children:
-                    List.generate(_skills.length, (index) {
-                      final skill = _skills[index];
-                      final isVertical = index % 2 == 1;
-
-                      // Entrance animation
-                      final entranceAnimation = CurvedAnimation(
-                        parent: _entranceController,
-                        curve: Interval(
-                          (index / _skills.length) * 0.5,
-                          1.0,
-                          curve: Curves.easeOut,
-                        ),
-                      );
-
-                      // Font size calculation
-                      final progress = index / (_skills.length - 1);
-                      final nonLinearProgress = 1 - pow(1 - progress, 2);
-                      final fontSize =
-                          basicFontSize -
-                          (basicFontSize - minFontSize) * nonLinearProgress;
-                      final fontWeight = _getWeightForSize(fontSize);
-
-                      final tag = Text(
-                        skill,
-                        style: textStyle.copyWith(
-                          fontSize: fontSize,
-                          fontWeight: fontWeight,
-                        ),
-                      );
-                      final rotatedTag =
-                          isVertical
-                              ? RotatedBox(quarterTurns: 3, child: tag)
-                              : tag;
-
-                      return FadeTransition(
-                        opacity: entranceAnimation,
-                        child: rotatedTag,
-                      );
-                    }).toList(),
+                children: List.generate(skills.length, (index) {
+                  return SkillTag(
+                    skill: skills[index],
+                    index: index,
+                    skillsCount: skills.length,
+                    entranceController: _entranceController,
+                    repeatingController: _repeatingController,
+                  );
+                }),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: FractionallySizedBox(
               widthFactor: 0.25,
-              child: const LinearProgressIndicator(),
+              child: RepaintBoundary(child: LinearProgressIndicator()),
             ),
           ),
         ],

@@ -11,8 +11,19 @@ class CvFooter extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset('assets/logos/built_with_flutter.png', height: 36),
-        const SizedBox(width: 32),
+        Container(
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            gradient: LinearGradient(
+              colors: [Colors.transparent, Colors.white70],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: FlutterLogo(size: 36, style: FlutterLogoStyle.markOnly),
+        ),
+        const SizedBox(width: 16),
         Text(text, style: Theme.of(context).textTheme.bodySmall),
       ],
     );

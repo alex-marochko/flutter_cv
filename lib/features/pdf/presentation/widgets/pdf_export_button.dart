@@ -1,8 +1,8 @@
-import 'package:flutter_cv/core/services/crash_reporting/crash_reporting_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
 import 'package:flutter_cv/core/services/analytics_service.dart';
+import 'package:flutter_cv/core/services/crash_reporting/crash_reporting_service.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 import 'package:flutter_cv/features/pdf/data/pdf_generator_service.dart';
@@ -13,7 +13,8 @@ class PdfExportButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<CvCubit, CvState>(
         builder: (_, state) {
