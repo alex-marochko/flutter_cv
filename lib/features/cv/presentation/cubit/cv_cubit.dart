@@ -13,7 +13,7 @@ class CvCubit extends Cubit<CvState> {
   /// Loads CV data using the GetCv use case
   Future<void> loadCv() async {
     emit(CvLoading());
-    final result = await getCv().withMinDuration(const Duration(seconds: 2));
+    final result = await getCv().withMinDuration(const Duration(seconds: 4));
     result.fold((failure) {
       sl<CrashReportingService>().recordError(
         failure,

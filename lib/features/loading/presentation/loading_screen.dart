@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_cv/features/loading/presentation/skills.dart';
+import 'package:flutter_cv/features/loading/presentation/widgets/skill_tag.dart';
 import 'package:mosaic_cloud/mosaic_cloud.dart';
-
-import 'skills.dart';
-import 'widgets/skill_tag.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
