@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
 import 'package:flutter_cv/core/services/analytics_service.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/services.dart';
 
 class ContactSection extends StatelessWidget {
   final String email;
@@ -25,28 +25,28 @@ class ContactSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _EmailItem(email: email),
+        _EmailChip(email: email),
         const SizedBox(height: 8),
         Wrap(
           spacing: 16,
           runSpacing: 12,
           children: [
-            _LinkIcon(
+            _LinkChip(
               label: 'LinkedIn',
               assetPath: 'assets/icons/linkedin.png',
               url: linkedin,
             ),
-            _LinkIcon(
+            _LinkChip(
               label: 'Telegram',
               assetPath: 'assets/icons/telegram.png',
               url: telegram,
             ),
-            _LinkIcon(
+            _LinkChip(
               label: 'GitHub',
               assetPath: 'assets/icons/github.png',
               url: github,
             ),
-            _LinkIcon(
+            _LinkChip(
               label: 'StackOverflow',
               assetPath: 'assets/icons/stackoverflow.png',
               url: stackoverflow,
@@ -58,9 +58,9 @@ class ContactSection extends StatelessWidget {
   }
 }
 
-class _EmailItem extends StatelessWidget {
+class _EmailChip extends StatelessWidget {
   final String email;
-  const _EmailItem({required this.email});
+  const _EmailChip({required this.email});
 
   Future<void> _launchEmail() async {
     sl<AnalyticsService>().logEvent(
@@ -109,12 +109,12 @@ class _EmailItem extends StatelessWidget {
   }
 }
 
-class _LinkIcon extends StatelessWidget {
+class _LinkChip extends StatelessWidget {
   final String label;
   final String assetPath;
   final String url;
 
-  const _LinkIcon({
+  const _LinkChip({
     required this.label,
     required this.assetPath,
     required this.url,
