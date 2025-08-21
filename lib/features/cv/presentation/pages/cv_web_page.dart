@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
-import 'package:flutter_cv/features/cv/presentation/widgets/change_theme_button.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/cv_footer.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
@@ -18,7 +17,7 @@ class CvWebPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        actions: [PdfExportButton(), ChangeThemeButton()],
+        actions: [PdfExportButton()],
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cv/core/config/app_initializer.dart';
 import 'package:flutter_cv/core/di/service_locator.dart';
 import 'package:flutter_cv/core/theme/app_theme.dart';
-import 'package:flutter_cv/core/theme/cubit/theme_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_cubit.dart';
 import 'package:flutter_cv/features/cv/presentation/cubit/cv_state.dart';
 import 'package:flutter_cv/features/cv/presentation/pages/responsive_cv_page.dart';
@@ -20,40 +19,33 @@ class CvApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
-          return MaterialApp(
-            title: 'Flutter CV',
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode,
-            debugShowCheckedModeBanner: false,
-            home: BlocProvider(
-              create: (_) => CvCubit(sl())..loadCv(),
-              child: BlocBuilder<CvCubit, CvState>(
-                builder: (context, state) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child: switch (state) {
-                      CvLoaded() => ResponsiveCvPage(
-                        key: const ValueKey('cv_page'),
-                        cv: state.cv,
-                      ),
-                      CvError() => ErrorScreen(
-                        key: const ValueKey('error_screen'),
-                        failure: state.failure,
-                        onRetry: () => context.read<CvCubit>().loadCv(),
-                      ),
-                      _ => const LoadingScreen(key: ValueKey('loading_screen')),
-                    },
-                  );
-                },
-              ),
-            ),
-          );
-        },
+    return MaterialApp(
+      title: 'Flutter CV',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
+      debugShowCheckedModeBanner: false,
+      home: BlocProvider(
+        create: (_) => CvCubit(sl())..loadCv(),
+        child: BlocBuilder<CvCubit, CvState>(
+          builder: (context, state) {
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              child: switch (state) {
+                CvLoaded() => ResponsiveCvPage(
+                  key: const ValueKey('cv_page'),
+                  cv: state.cv,
+                ),
+                CvError() => ErrorScreen(
+                  key: const ValueKey('error_screen'),
+                  failure: state.failure,
+                  onRetry: () => context.read<CvCubit>().loadCv(),
+                ),
+                _ => const LoadingScreen(key: ValueKey('loading_screen')),
+              },
+            );
+          },
+        ),
       ),
     );
   }

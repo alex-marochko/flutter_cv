@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cv/features/cv/domain/entities/cv.dart';
-import 'package:flutter_cv/features/cv/presentation/widgets/change_theme_button.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/contact_section.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/cv_footer.dart';
 import 'package:flutter_cv/features/cv/presentation/widgets/education_section.dart';
@@ -17,7 +16,7 @@ class CvPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(cv.nameEn),
-        actions: [PdfExportButton(), ChangeThemeButton()],
+        actions: [PdfExportButton()],
       ),
       body: CvContent(cv: cv),
     );
