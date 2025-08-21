@@ -11,8 +11,13 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _entranceController;
+  late AnimationController _repeatingController;
+
+  static const _repeatingAnimationDurationPerSkill = Duration(
+    milliseconds: 700,
+  );
 
   static const List<String> _skills = [
     'Flutter',
@@ -43,15 +48,25 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   void initState() {
     super.initState();
-    _entranceController = AnimationController(
-      duration: const Duration(seconds: 2),
+    _repeatingController = AnimationController(
+      duration: _repeatingAnimationDurationPerSkill * _skills.length,
       vsync: this,
-    )..forward();
+    );
+
+    _entranceController =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              _repeatingController.repeat();
+            }
+          })
+          ..forward();
   }
 
   @override
   void dispose() {
     _entranceController.dispose();
+    _repeatingController.dispose();
     super.dispose();
   }
 
@@ -63,11 +78,8 @@ class _LoadingScreenState extends State<LoadingScreen>
 
   @override
   Widget build(BuildContext context) {
-    const basicFontSize = 24.0;
+    const basicFontSize = 32.0;
     const minFontSize = 12.0;
-    final textStyle = TextStyle(
-      color: Theme.of(context).textTheme.bodyLarge?.color,
-    );
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -87,7 +99,7 @@ class _LoadingScreenState extends State<LoadingScreen>
                         curve: Interval(
                           (index / _skills.length) * 0.5,
                           1.0,
-                          curve: Curves.easeOut,
+                          curve: Curves.linear,
                         ),
                       );
 
@@ -99,12 +111,64 @@ class _LoadingScreenState extends State<LoadingScreen>
                           (basicFontSize - minFontSize) * nonLinearProgress;
                       final fontWeight = _getWeightForSize(fontSize);
 
-                      final tag = Text(
-                        skill,
-                        style: textStyle.copyWith(
+                      final indexIntervalStart =
+                          (_skills.length - index < 4)
+                              ? index - (_skills.length - index)
+                              : index;
+                      final indexIntervalEnd = min(
+                        indexIntervalStart + 4,
+                        _skills.length,
+                      );
+
+                      // Repeating animation
+                      final repeatingAnimation = CurvedAnimation(
+                        parent: _repeatingController,
+                        curve: Interval(
+                          indexIntervalStart / _skills.length,
+                          indexIntervalEnd / _skills.length,
+                          curve: Curves.decelerate,
+                        ),
+                      );
+
+                      final forwardAndBackTween = TweenSequence<double>([
+                        TweenSequenceItem<double>(
+                          tween: Tween<double>(begin: 0.0, end: 1.0),
+                          weight: 0.5,
+                        ),
+                        TweenSequenceItem<double>(
+                          tween: ConstantTween<double>(1.0),
+                          weight: 1.0,
+                        ),
+                        TweenSequenceItem<double>(
+                          tween: Tween<double>(begin: 1.0, end: 0.0),
+                          weight: 2.0,
+                        ),
+                      ]);
+
+                      final styleTween = TextStyleTween(
+                        begin: TextStyle(
                           fontSize: fontSize,
+                          color: Colors.blue,
                           fontWeight: fontWeight,
                         ),
+                        end: TextStyle(
+                          fontSize: fontSize,
+                          color: Colors.yellow,
+                          fontWeight: fontWeight,
+                          shadows: [
+                            Shadow(
+                              color: Colors.yellow,
+                              blurRadius: fontSize / 2,
+                            ),
+                          ],
+                        ),
+                      );
+
+                      final tag = DefaultTextStyleTransition(
+                        style: styleTween.animate(
+                          forwardAndBackTween.animate(repeatingAnimation),
+                        ),
+                        child: Text(skill),
                       );
                       final rotatedTag =
                           isVertical
