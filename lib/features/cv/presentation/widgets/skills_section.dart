@@ -11,56 +11,40 @@ class SkillsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CvSectionCard(
       title: 'Skills & Techs Used',
-      child: Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:
-              skills.entries
-                  .map(
-                    (entry) =>
-                        _SkillTile(category: entry.key, content: entry.value),
-                  )
-                  .toList(),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: skills.entries
+            .map(
+              (entry) =>
+                  _SkillTile(category: entry.key, content: entry.value),
+            )
+            .toList(),
       ),
     );
   }
 }
 
-class _SkillTile extends StatefulWidget {
+class _SkillTile extends StatelessWidget {
   final SkillCategory category;
   final String content;
 
   const _SkillTile({required this.category, required this.content});
 
   @override
-  State<_SkillTile> createState() => _SkillTileState();
-}
-
-class _SkillTileState extends State<_SkillTile> {
-  bool expanded = false;
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: ExpansionTile(
-        title: Text(
-          widget.category.label,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        initiallyExpanded: false,
-        onExpansionChanged: (value) => setState(() => expanded = value),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            alignment: Alignment.topLeft,
-            child: Text(
-              widget.content,
-              textAlign: TextAlign.start,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+          Text(
+            category.label,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            content,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
       ),

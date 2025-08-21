@@ -10,7 +10,7 @@ class EducationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return CvSectionCard(
       title: 'Education',
-      child: Text(education, style: Theme.of(context).textTheme.bodyLarge),
+      child: Text(education, style: Theme.of(context).textTheme.bodyMedium),
     );
   }
 }

@@ -66,13 +66,14 @@ class _ExperienceSectionState extends State<ExperienceSection>
           TabBar(
             controller: _tabController,
             isScrollable: true,
+            tabAlignment: TabAlignment.start,
             tabs:
                 widget.experience
                     .map((e) => Tab(text: '${e.yearFrom}–${e.yearTo}'))
                     .toList(),
           ),
           SizedBox(
-            height: 300, // Adjust height as needed
+            height: 200, // Adjust height as needed
             child: FadeTransition(
               opacity: _fadeAnimation,
               child: ScaleTransition(
@@ -117,27 +118,29 @@ class _ExperienceTabContent extends StatelessWidget {
               child: Linkify(
                 style: Theme.of(
                   context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
                 linkStyle: Theme.of(
                   context,
-                ).textTheme.bodySmall?.copyWith(color: Colors.blue[600]),
+                ).textTheme.bodyMedium?.copyWith(color: Colors.blue[600]),
                 text: 'Reference: ${experience.reference}',
                 onOpen: launchLink,
               ),
             ),
           const SizedBox(height: 8),
-          ...descriptionLines.map(
-            (line) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+          ...descriptionLines.map((line) {
+            final textStyle = Theme.of(context).textTheme.bodyMedium;
+
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('• ', style: TextStyle(height: 1.4)),
+                  Text('• ', style: textStyle),
                   Expanded(
                     child: Linkify(
                       text: line.trim(),
-                      style: const TextStyle(height: 1.4),
-                      linkStyle: const TextStyle(height: 1.4).copyWith(
+                      style: textStyle,
+                      linkStyle: textStyle?.copyWith(
                         color: Colors.blue[600],
                         decoration: TextDecoration.none,
                       ),
@@ -146,8 +149,8 @@ class _ExperienceTabContent extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );
