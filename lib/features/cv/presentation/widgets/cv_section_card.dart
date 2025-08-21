@@ -14,6 +14,7 @@ class CvSectionCard extends StatelessWidget {
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: Colors.black.withAlpha(80),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
