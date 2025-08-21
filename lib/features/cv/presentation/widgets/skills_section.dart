@@ -13,12 +13,13 @@ class SkillsSection extends StatelessWidget {
       title: 'Skills & Techs Used',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: skills.entries
-            .map(
-              (entry) =>
-                  _SkillTile(category: entry.key, content: entry.value),
-            )
-            .toList(),
+        children:
+            skills.entries
+                .map(
+                  (entry) =>
+                      _SkillTile(category: entry.key, content: entry.value),
+                )
+                .toList(),
       ),
     );
   }
@@ -37,15 +38,9 @@ class _SkillTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            category.label,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Text(category.label, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
-          Text(
-            content,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          Text(content, style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

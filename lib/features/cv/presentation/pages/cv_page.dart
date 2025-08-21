@@ -15,10 +15,7 @@ class CvPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: Text(cv.nameEn),
-        actions: [PdfExportButton()],
-      ),
+      appBar: AppBar(title: Text(cv.nameEn), actions: [PdfExportButton()]),
       body: CvContent(cv: cv),
     );
   }
