@@ -15,6 +15,9 @@ class CvFooter extends StatelessWidget {
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            boxShadow: [
+              BoxShadow(color: Colors.white12, spreadRadius: 3, blurRadius: 4),
+            ],
             gradient: LinearGradient(
               colors: [Colors.transparent, Colors.white70],
               begin: Alignment.topLeft,
