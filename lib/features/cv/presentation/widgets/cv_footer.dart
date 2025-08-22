@@ -24,7 +24,17 @@ class CvFooter extends StatelessWidget {
           child: FlutterLogo(size: 36, style: FlutterLogoStyle.markOnly),
         ),
         const SizedBox(width: 16),
-        Text(text, style: Theme.of(context).textTheme.bodySmall),
+        ConstrainedBox(
+          constraints: BoxConstraints.loose(Size.fromWidth(300)),
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.bodySmall,
+            textAlign: TextAlign.left,
+            maxLines: 2,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
