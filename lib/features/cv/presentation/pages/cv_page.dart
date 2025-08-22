@@ -40,7 +40,7 @@ class CvContent extends StatelessWidget {
         Text(
           cv.position,
           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            color: Colors.grey[700],
+            color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.w400,
           ),
         ),

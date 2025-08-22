@@ -61,34 +61,41 @@ class _ExperienceSectionState extends State<ExperienceSection>
   Widget build(BuildContext context) {
     return CvSectionCard(
       title: 'Experience',
-      child: Column(
-        children: [
-          TabBar(
-            controller: _tabController,
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-            tabs:
-                widget.experience
-                    .map((e) => Tab(text: '${e.yearFrom}–${e.yearTo}'))
-                    .toList(),
-          ),
-          SizedBox(
-            height: 200, // Adjust height as needed
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: ScaleTransition(
-                scale: _scaleAnimation,
-                child: IndexedStack(
-                  index: _currentIndex,
-                  children:
-                      widget.experience
-                          .map((e) => _ExperienceTabContent(experience: e))
-                          .toList(),
+      child: LayoutBuilder(
+        builder: (_, constraints) {
+          return Column(
+            children: [
+              TabBar(
+                controller: _tabController,
+                isScrollable: true,
+                tabAlignment: TabAlignment.start,
+                tabs:
+                    widget.experience
+                        .map((e) => Tab(text: '${e.yearFrom}–${e.yearTo}'))
+                        .toList(),
+              ),
+              SizedBox(
+                height:
+                    constraints.maxWidth < 800
+                        ? 300
+                        : 200, // Adjust height as needed
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: ScaleTransition(
+                    scale: _scaleAnimation,
+                    child: IndexedStack(
+                      index: _currentIndex,
+                      children:
+                          widget.experience
+                              .map((e) => _ExperienceTabContent(experience: e))
+                              .toList(),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
